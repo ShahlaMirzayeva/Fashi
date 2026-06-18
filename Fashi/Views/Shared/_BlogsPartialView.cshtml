@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Blog>
+
+@foreach (var item in Model)
+{
+    <div class="col-lg-6 col-sm-6">
+        <div class="blog-item">
+            <div class="bi-pic">
+               <img src="img/blog/@item.BlogImages.FirstOrDefault()?.Image" alt="">
+             </div>
+            <div class="bi-text">
+                <a asp-action="BlogDetail" asp-route-id="@item.Id">
+                    <h4>@item.Title</h4>
+                </a>
+                <p>@item.BlogCategory.Name <span>- @item.BlogCreateTime.ToString("dd.MM.yyyy")</span></p>
+            </div>
+        </div>
+    </div>
+
+}
+

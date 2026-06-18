@@ -1,0 +1,308 @@
+﻿
+@model HomeVM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="hero-section">
+    <div class="hero-items owl-carousel">
+        @foreach (var item in Model.HomeBanners)
+        {
+            <div class="single-hero-items set-bg" data-setbg="img/@item.Image">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <span>@item.LittleTitle</span>
+                            <h1>@item.Title</h1>
+                            <p>
+                                @item.Description
+                            </p>
+                            <a href="#" class="primary-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="off-card">
+                        <h2>Sale <span>50%</span></h2>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+<!-- Hero Section End -->
+<!-- Banner Section Begin -->
+<div class="banner-section spad">
+    <div class="container-fluid">
+        <div class="row">
+           
+               @foreach (var item in Model.CategoryBanners)
+                {
+                    <div class="col-lg-4">
+                        <div class="single-banner">
+                    <img src="~/img/@item.Image" alt="">
+                    <div class="inner-text">
+                        <h4>@item.Name</h4>
+                    </div>
+                </div>
+            </div>
+            }
+            
+        </div>
+    </div>
+</div>
+<!-- Banner Section End -->
+<!-- Women Banner Section Begin -->
+<section class="women-banner spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="product-large set-bg" data-setbg="img/products/@Model.Discovers.ElementAtOrDefault(0).Image">
+                    <h2>@Model.Discovers.ElementAtOrDefault(0).Name</h2>
+                    <a href="#">@Model.Discovers.ElementAtOrDefault(0).Button</a>
+                </div>
+            </div>
+            <div class="col-lg-8 offset-lg-1">
+                <div class="filter-control">
+                    <ul>
+                        <li class="active" data-id="0">All</li>
+                        @foreach (var category in Model.Categories.Where(c=>c.GenderId==2))
+                        {
+                            <li data-id="@category.Id">@category.Name</li>
+                        }
+                       
+                      
+                    </ul>
+                </div>
+                <div class="product-slider owl-carousel">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="product-item"data-id="@product.CategoryId">
+                            <div class="pi-pic">
+                                <img src="~/img/products/@product.ProductImages.FirstOrDefault()?.ImageUrl" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="icon_heart_alt"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">@product.Category.Name</div>
+                                <a href="#">
+                                    <h5>@product.Name</h5>
+                                </a>
+                                <div class="product-price">
+                                   @product.Price
+                                    <span>$35.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                   
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Women Banner Section End -->
+<!-- Deal Of The Week Section Begin-->
+<section class="deal-of-week set-bg spad" data-setbg="img/@Model.DealOfWeeks.FirstOrDefault().Image">
+    <div class="container">
+        <div class="col-lg-6 text-center">
+            <div class="section-title">
+                <h2>@Model.DealOfWeeks.FirstOrDefault().Title</h2>
+                <p>
+                 @Model.DealOfWeeks.FirstOrDefault().Description 
+                </p>
+                <div class="product-price">
+                    $@Model.DealOfWeeks.FirstOrDefault().Price
+                    <span>/ @Model.DealOfWeeks.FirstOrDefault().ProductName</span>
+                </div>
+            </div>
+            <div class="countdown-timer" id="countdown">
+                <div class="cd-item">
+                    <span>56</span>
+                    <p>Days</p>
+                </div>
+                <div class="cd-item">
+                    <span>12</span>
+                    <p>Hrs</p>
+                </div>
+                <div class="cd-item">
+                    <span>40</span>
+                    <p>Mins</p>
+                </div>
+                <div class="cd-item">
+                    <span>52</span>
+                    <p>Secs</p>
+                </div>
+            </div>
+            <a href="#" class="primary-btn">Shop Now</a>
+        </div>
+    </div>
+</section>
+<!-- Deal Of The Week Section End -->
+<!-- Man Banner Section Begin -->
+<section class="man-banner spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="filter-control">
+                    <ul>
+                        <li class="active" data-id="0">All</li>
+                        @foreach (var category in Model.Categories.Where(c => c.GenderId == 1))
+                        {
+                            <li data-id="@category.Id">@category.Name</li>
+                        }
+                      
+                    </ul>
+                </div>
+                <div class="product-slider owl-carousel">
+                    @foreach (var product in @Model.Products)
+                    {
+                        <div class="product-item" data-id="@product.CategoryId">
+                            <div class="pi-pic">
+                                <img src="~/img/products/@product.ProductImages.FirstOrDefault()?.ImageUrl" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="icon_heart_alt"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">@product.Category.Name</div>
+                                <a href="#">
+                                    <h5>@product.Name</h5>
+                                </a>
+                                <div class="product-price">
+                                    $14.00
+                                    <span>$@product.Price</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                   
+                  
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <div class="product-large set-bg m-large" data-setbg="img/products/@Model.Discovers.ElementAt(1).Image">
+                    <h2>@Model.Discovers.ElementAt(1).Name</h2>
+                    <a href="#">@Model.Discovers.ElementAt(1).Button</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Man Banner Section End -->
+<!-- Instagram Section Begin -->
+<div class="instagram-photo">
+    @foreach (var sosial in Model.SosialMedias)
+    {
+        <div class="insta-item set-bg" data-setbg="img/@sosial.Image">
+            <div class="inside-text">
+                <i class="@sosial.Icon"></i>
+                <h5><a href="#">@sosial.SosialMediaLink</a></h5>
+            </div>
+        </div>
+
+        
+    }
+    
+</div>
+<!-- Instagram Section End -->
+<!-- Latest Blog Section Begin -->
+<section class="latest-blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>From The Blog</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var blog in Model.Blogs)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-latest-blog">
+                        <img src="~/img/blog/@blog.BlogImages.FirstOrDefault()?.Image" alt="">
+                        <div class="latest-text">
+                            <div class="tag-list">
+                                <div class="tag-item">
+                                    <i class="fa fa-calendar-o"></i>
+                                    @blog.BlogCreateTime
+                                </div>
+                                <div class="tag-item">
+                                    <i class="fa fa-comment-o"></i>
+                                    @blog.CommentCount
+                                </div>
+                            </div>
+                            <a href="#">
+                                <h4>@blog.Title</h4>
+                            </a>
+                            <p>@blog.LittleTitle </p>
+                        </div>
+                    </div>
+                </div>
+            }
+           
+          
+        </div>
+        <div class="benefit-items">
+            <div class="row">
+                @foreach (var benefit in Model.Benefits)
+                {
+                    <div class="col-lg-4">
+                        <div class="single-benefit">
+                            <div class="sb-icon">
+                                <img src="~/img/@benefit.Icon" alt="">
+                            </div>
+                            <div class="sb-text">
+                                <h6>@benefit.Title</h6>
+                                <p>@benefit.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+              
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".filter-control li");
+        const productItems = document.querySelectorAll(".product-item");
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                // Aktif classları sıfırla
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+
+                const selectedCategoryId = this.getAttribute("data-id");
+
+                productItems.forEach(item => {
+                    const itemCategoryId = item.getAttribute("data-id");
+
+                    if (selectedCategoryId === "all" || selectedCategoryId === itemCategoryId) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>
+
