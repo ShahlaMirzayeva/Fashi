@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fashi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250602121218_CreateAllTables")]
-    partial class CreateAllTables
+    [Migration("20260628151149__initial")]
+    partial class _initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,7 +222,7 @@ namespace Fashi.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -725,9 +725,7 @@ namespace Fashi.Migrations
                 {
                     b.HasOne("Fashi.Models.Gender", "Gender")
                         .WithMany("Categories")
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenderId");
 
                     b.Navigation("Gender");
                 });

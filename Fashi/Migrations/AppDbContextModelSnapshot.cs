@@ -219,7 +219,7 @@ namespace Fashi.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -722,9 +722,7 @@ namespace Fashi.Migrations
                 {
                     b.HasOne("Fashi.Models.Gender", "Gender")
                         .WithMany("Categories")
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenderId");
 
                     b.Navigation("Gender");
                 });

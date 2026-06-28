@@ -6,10 +6,10 @@ namespace Fashi.Services.GenderServ
     {
         Task<IEnumerable<Gender>> GetAllGenderAsync();
         Task<Gender> GetByIdGenderAsync(int id);
-        Task AddAsync(Gender gender);
-        Task DeleteAsync(int id);
+        Task AddGenderAsync(Gender gender);
+        Task DeleteGenderAsync(int id);
       
-        Task UpdateAsync(Gender gender);
+        Task UpdateGenderAsync(Gender gender);
 
     }
 }

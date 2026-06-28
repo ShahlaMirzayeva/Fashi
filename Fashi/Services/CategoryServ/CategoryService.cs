@@ -11,14 +11,39 @@ namespace Fashi.Services.CategoryServ
         {
             _categoryRepository = categoryRepository;
         }
-        public async Task<IEnumerable<Category>> GetAllCategoryAsync()
+
+     
+
+        public async Task AddCategoryAsync(Category category)
         {
-            return await _categoryRepository.GetAllAsync();
+            await _categoryRepository.AddAsync(category);
+            await _categoryRepository.SaveAsync();
         }
 
-        public async Task<Category> GetCategoryByIdAync(int id)
+        public async Task DeleteCategoryAsync(int id)
+        {
+            await _categoryRepository.DeleteAsync(id);
+            await _categoryRepository.SaveAsync();
+        }
+
+     
+
+        public async Task<IEnumerable<Category>> GetAllCategoryAsync()
+        {
+            return await _categoryRepository.GetAllAsync(x=>x.Gender);
+        }
+
+        public async Task<Category> GetCategoryByIdAsync(int id)
         {
            return await _categoryRepository.GetByIdAsync(id);
+        }
+
+     
+
+        public async Task UpdateCategoryAsync(Category category)
+        {
+            await _categoryRepository.UpdateAsync(category);
+            await _categoryRepository.SaveAsync();
         }
     }
 }

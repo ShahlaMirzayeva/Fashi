@@ -12,14 +12,14 @@ namespace Fashi.Services.GenderServ
             _genderRepository = genderRepository;
         }
 
-        public async Task AddAsync(Gender gender)
+        public async Task AddGenderAsync(Gender gender)
         {
            await _genderRepository.AddAsync(gender);
             await _genderRepository.SaveAsync();
 
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteGenderAsync(int id)
         {
             await _genderRepository.DeleteAsync(id);
             await _genderRepository.SaveAsync();
@@ -27,7 +27,7 @@ namespace Fashi.Services.GenderServ
         }
 
      
-        public async Task UpdateAsync(Gender gender)
+        public async Task UpdateGenderAsync(Gender gender)
         {
             await _genderRepository.UpdateAsync(gender);
             await _genderRepository.SaveAsync();

@@ -1,4 +1,4 @@
-﻿@model UpdateGenderVm
+﻿@model UpdateColorVm
 <div class="main-panel">
 
     <div class="content-wrapper">
@@ -11,10 +11,13 @@
                             Basic form elements
                         </p>
                         <form class="forms-sample" method="post">
+                            <input asp-for="Id" type="hidden" />
                             <div class="form-group">
-                                <label asp-for="Name">Name</label>
-                                <input asp-for="Name" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                                <label asp-for="ColorName">Name</label>
+                                <input asp-for="ColorName" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                                <span asp-validation-for="ColorName" class="text-danger"></span>
                             </div>
+                     
 
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
                             <button class="btn btn-light">Cancel</button>
@@ -24,4 +27,6 @@
             </div>
 </<div>
 </div>
+
+
 

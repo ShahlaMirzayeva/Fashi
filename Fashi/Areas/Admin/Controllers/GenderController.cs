@@ -15,7 +15,8 @@ namespace Fashi.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {var genders= await _genderService.GetAllGenderAsync();
-         
+            if(genders is null) { return NotFound(); }
+
             return View(genders);
         }
 
@@ -34,13 +35,19 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 Name= createGender.Name
             };
-            await _genderService.AddAsync(gender);
+            await _genderService.AddGenderAsync(gender);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(int id)
         {Gender gender= await _genderService.GetByIdGenderAsync(id);
-            return View(gender);
+            if(gender is null)return NotFound();    
+            UpdateGenderVm updateGenderVm = new UpdateGenderVm
+            {
+                Id = gender.Id,
+                Name= gender.Name
+            };
+            return View(updateGenderVm);
         }
 
         [HttpPost]
@@ -54,15 +61,14 @@ namespace Fashi.Areas.Admin.Controllers
         Gender oldGender=await _genderService.GetByIdGenderAsync(updateGenderVm.Id);
             if (oldGender == null) { return NotFound(); }
             oldGender.Name = updateGenderVm.Name;
-            await _genderService.UpdateAsync(oldGender);
+            await _genderService.UpdateGenderAsync(oldGender);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var gender = await _genderService.GetByIdGenderAsync(id);
-            if(gender is null) { return NotFound(); }
-            await _genderService.DeleteAsync(gender);
+        
+            await _genderService.DeleteGenderAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

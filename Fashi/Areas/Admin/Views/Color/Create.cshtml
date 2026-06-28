@@ -1,6 +1,6 @@
-﻿@model UpdateGenderVm
+﻿
+@model CreateColorVm
 <div class="main-panel">
-
     <div class="content-wrapper">
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
@@ -12,9 +12,11 @@
                         </p>
                         <form class="forms-sample" method="post">
                             <div class="form-group">
-                                <label asp-for="Name">Name</label>
-                                <input asp-for="Name" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                                <label asp-for="ColorName">Name</label>
+                                <input asp-for="ColorName" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                                <span asp-validation-for="ColorName" class="text-danger"></span>
                             </div>
+                     
 
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
                             <button class="btn btn-light">Cancel</button>
@@ -24,4 +26,5 @@
             </div>
 </<div>
 </div>
+
 
