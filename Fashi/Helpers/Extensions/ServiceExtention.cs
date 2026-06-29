@@ -5,6 +5,7 @@ using Fashi.Repositories.GenderRepo;
 using Fashi.Repositories.ProductRepo;
 using Fashi.Services.CategoryServ;
 using Fashi.Services.ColorServ;
+using Fashi.Services.FileServ;
 using Fashi.Services.GenderServ;
 using Fashi.Services.ProductServ;
 
@@ -32,6 +33,8 @@ namespace Fashi.Helpers.Extensions
 
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<IColorRepository, ColorRepository>();
+
+            services.AddScoped<IFileService, FileService>();
 
 
 
