@@ -17,7 +17,7 @@ namespace Fashi.Services.ProductServ
             
         }
 
-        public async Task AddProductAsync(Product product, List<IFormFile> images)
+        public async Task AddProductAsync(Product product, List<IFormFile> images,List<int>colorIds)
         {
             if (images != null && images.Count > 6)
             {
@@ -33,9 +33,17 @@ namespace Fashi.Services.ProductServ
                     product.ProductImages.Add(new ProductImage { ImageUrl=imageUrl });
                 }
             }
+            product.ColorProducts= new List<ColorProduct>();
+            if (colorIds != null)
+            {
+                foreach (var colorId in colorIds)
+                {
+                    product.ColorProducts.Add(new ColorProduct { ColorId = colorId });
+                }
 
-            await _productRepository.AddAsync(product);
-            await _productRepository.SaveAsync();
+                await _productRepository.AddAsync(product);
+                await _productRepository.SaveAsync();
+            }
         }
 
         public async Task DeleteProductAsync(int id)
@@ -55,12 +63,12 @@ namespace Fashi.Services.ProductServ
 
         public async Task<IEnumerable<Product>> GetAllProductAsync()
         {
-            return await _productRepository.GetAllAsync(p => p.ProductImages,p=>p.Category);
+            return await _productRepository.GetAllProductWithDetailAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            return await _productRepository.GetByIdProductWithDetailAsync(id);
         }
 
         public Task UpdateProductAsync(Product product, List<IFormFile> images)

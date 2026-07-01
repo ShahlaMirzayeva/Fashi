@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fashi.Migrations
 {
     /// <inheritdoc />
-    public partial class _initial : Migration
+    public partial class _intitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

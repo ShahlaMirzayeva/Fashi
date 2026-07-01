@@ -15,10 +15,24 @@
                                 <input asp-for="Name" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
+                            @foreach (var item in ViewBag.Colors)
+                                {
+                                    
                             <div class="form-group">
-                                <label asp-for="LikeIcon">LikeIcon</label>
-                                <input asp-for="LikeIcon" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-                                <span asp-validation-for="LikeIcon" class="text-danger"></span>
+                                        <label asp-for="ColorIds">@item.ColorName</label>
+                                        <input name="ColorIds" type="checkbox" value="@item.Id" class="form-check-input" id="exampleInputName1" placeholder="Name">
+                                        <span asp-validation-for="ColorIds" class="text-danger"></span>
+                                    </div>
+                                }
+                       
+                            <div class="form-group">
+                               <select asp-for="Size" class="form-control">
+                                   <option value="">Select Size</option>
+                                   <option value="Small">Small</option>
+                                   <option value="Medium">Medium</option>
+                                   <option value="Large">Large</option>
+                               </select>
+                                <span asp-validation-for="Size" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Price">Price</label>
@@ -35,11 +49,7 @@
                                 <input asp-for="Discount" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
                                 <span asp-validation-for="Discount" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Size">Size</label>
-                                <input asp-for="Size" type="text" class="form-control" id="exampleInputName1" placeholder="Name">
-                                <span asp-validation-for="Size" class="text-danger"></span>
-                            </div>
+                     
                             <div class="form-group">
                                 <label>Şəkillər (maksimum 6)</label>
                                 <input type="file" asp-for="Images" name="Images" multiple accept="image/*" class="form-control" />

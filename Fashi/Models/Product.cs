@@ -11,11 +11,12 @@
         public DateTime CreateTime { get; set; } = DateTime.Now;
         public DateTime UpdateTime { get; set; }
         public string Size { get; set; }
-        public string LikeIcon { get; set; }
+        public int LikeCount { get; set; } = 0;
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
 
         public virtual ICollection<ProductImage> ProductImages { get; set; }
-       
+        public virtual ICollection<ColorProduct> ColorProducts { get; set; }    
+
     }
 }

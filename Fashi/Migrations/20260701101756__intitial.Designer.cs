@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fashi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260628151149__initial")]
-    partial class _initial
+    [Migration("20260701101756__intitial")]
+    partial class _intitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -739,7 +739,7 @@ namespace Fashi.Migrations
                         .IsRequired();
 
                     b.HasOne("Fashi.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ColorProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -882,6 +882,8 @@ namespace Fashi.Migrations
 
             modelBuilder.Entity("Fashi.Models.Product", b =>
                 {
+                    b.Navigation("ColorProducts");
+
                     b.Navigation("ProductImages");
                 });
 

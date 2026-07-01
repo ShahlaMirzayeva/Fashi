@@ -12,7 +12,7 @@ namespace Fashi.Data
 
         }
 
-
+   
         public DbSet<HomeBanner> HomeBanners { get; set; }
         public DbSet<CategoryBanner> CategoryBanners { get; set; }
 

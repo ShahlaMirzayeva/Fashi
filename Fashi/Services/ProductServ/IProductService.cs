@@ -6,7 +6,7 @@ namespace Fashi.Services.ProductServ
     {
         Task<IEnumerable<Product>> GetAllProductAsync();
         Task<Product> GetProductByIdAsync(int id);
-        Task AddProductAsync(Product product,List<IFormFile>images);
+        Task AddProductAsync(Product product,List<IFormFile>images,List<int>colorIds);
         Task DeleteProductAsync(int id);
         Task UpdateProductAsync(Product product,List<IFormFile>images);
     }
