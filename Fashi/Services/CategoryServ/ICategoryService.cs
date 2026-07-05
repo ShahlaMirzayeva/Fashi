@@ -1,14 +1,15 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.Category;
+using Fashi.Models;
 
 namespace Fashi.Services.CategoryServ
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetAllCategoryAsync();
-        Task<Category> GetCategoryByIdAsync(int id);
+        Task<IEnumerable<CategoryDto>> GetAllCategoryAsync();
+        Task<CategoryDto> GetCategoryByIdAsync(int id);
 
-        Task AddCategoryAsync(Category category);
+        Task AddCategoryAsync(CategoryCreateDto categoryDto);
         Task DeleteCategoryAsync(int id);
-        Task UpdateCategoryAsync(Category category);
+        Task UpdateCategoryAsync(CategoryUpdateDto categoryDto);
     }
 }

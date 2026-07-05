@@ -2,6 +2,7 @@ using Fashi.Data;
 using Fashi.Helpers.Extensions;
 using Fashi.Models;
 using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.Configure<IdentityOptions>(opt =>
 {
@@ -23,6 +25,8 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.User.RequireUniqueEmail = false;
 
 });
+
+
 builder.Services.AddApplicationService();
 var app = builder.Build();
 

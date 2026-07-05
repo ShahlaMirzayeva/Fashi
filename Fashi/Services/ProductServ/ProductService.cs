@@ -71,9 +71,24 @@ namespace Fashi.Services.ProductServ
             return await _productRepository.GetByIdProductWithDetailAsync(id);
         }
 
-        public Task UpdateProductAsync(Product product, List<IFormFile> images)
+        public async Task UpdateProductAsync(Product product, List<IFormFile> images,List<int>deleteImageIds)
         {
-            throw new NotImplementedException();
+            var existingProduct=await _productRepository.GetByIdAsync(product.Id, p => p.ProductImages);
+            if(existingProduct==null)
+            {
+                return;
+            }
+            if(deleteImageIds!=null&& deleteImageIds.Count>0)
+            {
+              
+                    var imageToDelete=existingProduct.ProductImages.Where(pi=>deleteImageIds.Contains(pi.Id)).ToList();
+
+                foreach(var image in imageToDelete)
+                {
+                    _fileService.DeleteImage(image.ImageUrl);
+                    existingProduct.ProductImages.Remove(image);
+                }
+            }
         }
     }
 }

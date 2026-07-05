@@ -33,7 +33,7 @@ public class HomeController : Controller
             HomeBanners = _context.HomeBanners,
             CategoryBanners=_context.CategoryBanners,
             Discovers=_context.Discovers,
-            Categories=categories,
+            //Categories=categories,
             Products=products,
             DealOfWeeks=_context.DealOfWeeks,
             SosialMedias=_context.SosialMedias,

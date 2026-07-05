@@ -1,4 +1,5 @@
 ﻿using Fashi.Areas.Admin.ViewModels.CategoryVm;
+using Fashi.Dtos.Category;
 using Fashi.Models;
 using Fashi.Repositories.CategoryRepo;
 using Fashi.Services.CategoryServ;
@@ -39,7 +40,7 @@ namespace Fashi.Areas.Admin.Controllers
                 return View(createCategoryVm);
 
             }
-            Category category = new Category
+            CategoryCreateDto category = new CategoryCreateDto
             {
                 Name = createCategoryVm.Name,
                 GenderId = createCategoryVm.GenderId
@@ -76,11 +77,15 @@ namespace Fashi.Areas.Admin.Controllers
                 ViewBag.Genders = await _genderService.GetAllGenderAsync();
                 return View(updateCategoryVm);
             }
-            var category = await _categoryService.GetCategoryByIdAsync(updateCategoryVm.Id);
-            if(category == null) return NotFound();
-            category.Name = updateCategoryVm.Name;
-              category.GenderId = updateCategoryVm.GenderId;
-            await _categoryService.UpdateCategoryAsync(category);
+          
+            var categoryDto = new CategoryUpdateDto
+            {
+                Id= updateCategoryVm.Id,
+                Name = updateCategoryVm.Name,
+                GenderId = updateCategoryVm.GenderId
+            };
+           
+            await _categoryService.UpdateCategoryAsync(categoryDto);
             return RedirectToAction(nameof(Index));
 
         }

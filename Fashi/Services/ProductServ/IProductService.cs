@@ -8,6 +8,6 @@ namespace Fashi.Services.ProductServ
         Task<Product> GetProductByIdAsync(int id);
         Task AddProductAsync(Product product,List<IFormFile>images,List<int>colorIds);
         Task DeleteProductAsync(int id);
-        Task UpdateProductAsync(Product product,List<IFormFile>images);
+        Task UpdateProductAsync(Product product,List<IFormFile>images,List<int>deleteImageIds);
     }
 }
