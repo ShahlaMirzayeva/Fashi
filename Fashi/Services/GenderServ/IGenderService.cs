@@ -1,15 +1,16 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.Gender;
+using Fashi.Models;
 
 namespace Fashi.Services.GenderServ
 {
     public interface IGenderService
     {
-        Task<IEnumerable<Gender>> GetAllGenderAsync();
+        Task<IEnumerable<GenderDto>> GetAllGenderAsync();
         Task<Gender> GetByIdGenderAsync(int id);
-        Task AddGenderAsync(Gender gender);
+        Task AddGenderAsync(GenderCreateDto gender);
         Task DeleteGenderAsync(int id);
       
-        Task UpdateGenderAsync(Gender gender);
+        Task UpdateGenderAsync(GenderUpdateDto gender);
 
     }
 }

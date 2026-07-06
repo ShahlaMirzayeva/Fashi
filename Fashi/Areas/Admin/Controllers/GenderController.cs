@@ -1,4 +1,5 @@
 ﻿using Fashi.Areas.Admin.ViewModels.GenderVm;
+using Fashi.Dtos.Gender;
 using Fashi.Models;
 using Fashi.Services.GenderServ;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,9 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(createGender);
             }
-            Gender gender = new Gender
+          GenderCreateDto gender=new GenderCreateDto
             {
-                Name= createGender.Name
+                Name=createGender.Name
             };
             await _genderService.AddGenderAsync(gender);
             return RedirectToAction(nameof(Index));
@@ -57,10 +58,14 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(updateGenderVm);
             }
+            GenderUpdateDto oldGender = new GenderUpdateDto
+            {
+                Id = updateGenderVm.Id,
+                Name = updateGenderVm.Name
+            };
+            if (oldGender is null) { return NotFound(); }
 
-        Gender oldGender=await _genderService.GetByIdGenderAsync(updateGenderVm.Id);
-            if (oldGender == null) { return NotFound(); }
-            oldGender.Name = updateGenderVm.Name;
+
             await _genderService.UpdateGenderAsync(oldGender);
             return RedirectToAction(nameof(Index));
         }
