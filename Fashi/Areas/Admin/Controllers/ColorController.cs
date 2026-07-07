@@ -1,4 +1,5 @@
 ﻿using Fashi.Areas.Admin.ViewModels.ColorVm;
+using Fashi.Dtos.Color;
 using Fashi.Models;
 using Fashi.Services.ColorServ;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(createColorVm);
             }
-            Color color = new Color
+            ColorCreateDto color = new ColorCreateDto
             {
                 ColorName= createColorVm.ColorName,
             };
@@ -63,9 +64,11 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(updateColorVm);
             }
-            var color = await _colorService.GetColorByIdAsync(updateColorVm.Id);
-            if (color == null) return NotFound();
-            color.ColorName = updateColorVm.ColorName;
+      ColorUpdateDto color = new ColorUpdateDto
+            {
+                Id = updateColorVm.Id,
+                ColorName = updateColorVm.ColorName
+            };
             await _colorService.UpdateColorAsync(color);
             return RedirectToAction(nameof(Index));
         }
