@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Product>
+﻿
+@model IEnumerable<ProductDto>
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
@@ -72,9 +73,9 @@ Category                                        </th>
                                                     @item.Size
                                                 </td>
                                                 <td>
-                                                  @if(item.ProductImages != null && item.ProductImages.Any())
+                                                  @if(item.ImageMain != null)
                                                     {
-                                                        <img src="@item.ProductImages.First().ImageUrl" alt="Product Image" style="width: 50px; height: 50px;" />
+                                                        <img src="@item.ImageMain" alt="Product Image" style="width: 50px; height: 50px;" />
                                                     }
                                                     else
                                                     {
@@ -82,16 +83,19 @@ Category                                        </th>
                                                     }
         )
                                                 </td>
-                                                @if(item.ColorProducts != null && item.ColorProducts.Any())
+                                                @if(item.MainColorName != null)
                                                     {
-                                                        <td> @item.ColorProducts.First().Color.ColorName </td>                    
+                                                        <td> @item.MainColorName </td>                    
                                                     }
-                                                   
+                                                else
+                                                {
+                                                    <span>No Color</span>
+                                                }
                                                         
                                                     
 
                                                 <td>
-                                                    @item.Category.Name
+                                                    @item.CategoryName
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-primary" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Edit</a>

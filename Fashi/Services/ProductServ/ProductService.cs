@@ -1,4 +1,6 @@
-﻿using Fashi.Models;
+﻿using AutoMapper;
+using Fashi.Dtos.Product;
+using Fashi.Models;
 using Fashi.Repositories.ProductRepo;
 using Fashi.Services.FileServ;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -9,20 +11,24 @@ namespace Fashi.Services.ProductServ
     {
         private readonly IProductRepository _productRepository;
         private readonly IFileService _fileService;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository,IFileService fileService)
+        public ProductService(IProductRepository productRepository,IFileService fileService,IMapper mapper)
         {
             _productRepository = productRepository;
             _fileService = fileService;
+            _mapper = mapper;
             
         }
 
-        public async Task AddProductAsync(Product product, List<IFormFile> images,List<int>colorIds)
+        public async Task AddProductAsync(ProductCreateDto productDto, List<IFormFile> images,List<int>colorIds)
         {
             if (images != null && images.Count > 6)
             {
                 throw new Exception("Max 6 shekil yukleye bilersiz");
             }
+          var product=_mapper.Map<Product>(productDto);
+       
             product.ProductImages = new List<ProductImage>();
 
             if (images != null)
@@ -41,9 +47,10 @@ namespace Fashi.Services.ProductServ
                     product.ColorProducts.Add(new ColorProduct { ColorId = colorId });
                 }
 
-                await _productRepository.AddAsync(product);
-                await _productRepository.SaveAsync();
+              
             }
+            await _productRepository.AddAsync(product);
+            await _productRepository.SaveAsync();
         }
 
         public async Task DeleteProductAsync(int id)
@@ -53,6 +60,7 @@ namespace Fashi.Services.ProductServ
             {
                 return;
             }
+            
             foreach (var image in product.ProductImages)
             {
                 _fileService.DeleteImage(image.ImageUrl);
@@ -61,9 +69,10 @@ namespace Fashi.Services.ProductServ
           await _productRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductAsync()
+        public async Task<IEnumerable<ProductDto>> GetAllProductAsync()
         {
-            return await _productRepository.GetAllProductWithDetailAsync();
+            var product=await _productRepository.GetAllProductWithDetailAsync();
+            return _mapper.Map<IEnumerable<ProductDto>>(product);
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -71,24 +80,43 @@ namespace Fashi.Services.ProductServ
             return await _productRepository.GetByIdProductWithDetailAsync(id);
         }
 
-        public async Task UpdateProductAsync(Product product, List<IFormFile> images,List<int>deleteImageIds)
+        public async Task UpdateProductAsync(ProductUpdateDto productDto)
         {
-            var existingProduct=await _productRepository.GetByIdAsync(product.Id, p => p.ProductImages);
-            if(existingProduct==null)
+            var product=await _productRepository.GetByIdAsync(productDto.Id, p => p.ProductImages,p=>p.ColorProducts);
+            if(product==null)
             {
                 return;
             }
-            if(deleteImageIds!=null&& deleteImageIds.Count>0)
+           _mapper.Map(productDto,product);
+
+            if (productDto.DeleteImageIds.Any())
             {
               
-                    var imageToDelete=existingProduct.ProductImages.Where(pi=>deleteImageIds.Contains(pi.Id)).ToList();
+                    var imageToDelete=product.ProductImages.Where(pi=> productDto.DeleteImageIds.Contains(pi.Id)).ToList();
 
                 foreach(var image in imageToDelete)
                 {
                     _fileService.DeleteImage(image.ImageUrl);
-                    existingProduct.ProductImages.Remove(image);
+                    product.ProductImages.Remove(image);
                 }
             }
+            if(productDto.NewImages.Any())
+            {
+                foreach(var image in productDto.NewImages)
+                {
+                    string imageUrl=await _fileService.UploadFileAsync(image,"products");
+                    product.ProductImages.Add(new ProductImage { ImageUrl=imageUrl });
+                }
+            }
+
+            product.ColorProducts.Clear();
+            foreach(var colorId in productDto.ColorIds)
+            {
+                product.ColorProducts.Add(new ColorProduct { ColorId=colorId, ProductId=product.Id });
+            }
+            product.UpdateTime= DateTime.UtcNow;
+            await _productRepository.UpdateAsync(product);
+            await _productRepository.SaveAsync();
         }
     }
 }

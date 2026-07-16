@@ -9,6 +9,6 @@
         public string Size { get; set; }
         public int CategoryId { get; set; }
         public List<int> ColorIds { get; set; } = new List<int>();
-        public List<IFormFile>? Images { get; set; }
+        public List<IFormFile> Images { get; set; }
     }
 }
