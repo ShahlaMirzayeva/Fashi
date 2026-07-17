@@ -34,10 +34,10 @@
                                     @foreach (var image in Model.ExistingImages)
                                     {
                                         <div class="form-group">
-                                            <img src="~/images/products/@image.ImageUrl" width="100" />
+                                            <img src="@image.ImageUrl" width="100" />
 
                                             <input type="checkbox"
-                                            name="DeleteImageIds"
+                                            name="DeleteImagesIds"
                                             value="@image.Id" />
 
                                             <label>Sil</label>

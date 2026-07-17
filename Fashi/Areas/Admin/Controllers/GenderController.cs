@@ -1,4 +1,5 @@
-﻿using Fashi.Areas.Admin.ViewModels.GenderVm;
+﻿using AutoMapper;
+using Fashi.Areas.Admin.ViewModels.GenderVm;
 using Fashi.Dtos.Gender;
 using Fashi.Models;
 using Fashi.Services.GenderServ;
@@ -10,9 +11,11 @@ namespace Fashi.Areas.Admin.Controllers
     public class GenderController : Controller
     {
         private readonly IGenderService _genderService;
-        public GenderController(IGenderService genderService)
+        private readonly IMapper _mapper;
+        public GenderController(IGenderService genderService, IMapper mapper)
         {
             _genderService = genderService;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {var genders= await _genderService.GetAllGenderAsync();
@@ -32,10 +35,11 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(createGender);
             }
-          GenderCreateDto gender=new GenderCreateDto
-            {
-                Name=createGender.Name
-            };
+          //GenderCreateDto gender=new GenderCreateDto
+          //  {
+          //      Name=createGender.Name
+          //  };
+          var gender=_mapper.Map<GenderCreateDto>(createGender);
             await _genderService.AddGenderAsync(gender);
             return RedirectToAction(nameof(Index));
         }
@@ -43,11 +47,12 @@ namespace Fashi.Areas.Admin.Controllers
         public async Task<IActionResult> Update(int id)
         {Gender gender= await _genderService.GetByIdGenderAsync(id);
             if(gender is null)return NotFound();    
-            UpdateGenderVm updateGenderVm = new UpdateGenderVm
-            {
-                Id = gender.Id,
-                Name= gender.Name
-            };
+            //UpdateGenderVm updateGenderVm = new UpdateGenderVm
+            //{
+            //    Id = gender.Id,
+            //    Name= gender.Name
+            //};
+            var updateGenderVm = _mapper.Map<UpdateGenderVm>(gender);
             return View(updateGenderVm);
         }
 
@@ -58,11 +63,12 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(updateGenderVm);
             }
-            GenderUpdateDto oldGender = new GenderUpdateDto
-            {
-                Id = updateGenderVm.Id,
-                Name = updateGenderVm.Name
-            };
+            //GenderUpdateDto oldGender = new GenderUpdateDto
+            //{
+            //    Id = updateGenderVm.Id,
+            //    Name = updateGenderVm.Name
+            //};
+            var oldGender = _mapper.Map<GenderUpdateDto>(updateGenderVm);
             if (oldGender is null) { return NotFound(); }
 
 

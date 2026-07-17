@@ -13,6 +13,6 @@
         public List<IFormFile>? NewImages { get; set; }
 
 
-        public List<int> DeleteImageIds { get; set; } = new();
+        public List<int> DeleteImagesIds { get; set; } = new();
     }
 }

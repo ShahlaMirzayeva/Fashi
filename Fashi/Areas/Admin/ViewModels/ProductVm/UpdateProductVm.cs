@@ -11,8 +11,8 @@ namespace Fashi.Areas.Admin.ViewModels.ProductVm
         public decimal Discount { get; set; }
         public string Size { get; set; }
         public int CategoryId { get; set; }
-        public List<IFormFile> NewImages { get; set; }
-        public List<int> DeleteImages { get; set; } = new List<int>();
+        public List<IFormFile>? NewImages { get; set; }
+        public List<int> DeleteImagesIds { get; set; } = new List<int>();
         public List<int> ColorIds { get; set; } = new List<int>();
         public List<ProductImage> ExistingImages { get; set; }=new List<ProductImage>();
     }

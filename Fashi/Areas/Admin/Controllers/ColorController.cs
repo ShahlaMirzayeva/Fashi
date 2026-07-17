@@ -1,4 +1,5 @@
-﻿using Fashi.Areas.Admin.ViewModels.ColorVm;
+﻿using AutoMapper;
+using Fashi.Areas.Admin.ViewModels.ColorVm;
 using Fashi.Dtos.Color;
 using Fashi.Models;
 using Fashi.Services.ColorServ;
@@ -10,9 +11,11 @@ namespace Fashi.Areas.Admin.Controllers
     public class ColorController : Controller
     {
         private readonly IColorService _colorService;
-        public ColorController(IColorService colorService)
+        private readonly IMapper _mapper;
+        public ColorController(IColorService colorService,IMapper mapper)
         {
             _colorService = colorService;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {var colors =await  _colorService.GetAllColorAsync();
@@ -31,10 +34,11 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(createColorVm);
             }
-            ColorCreateDto color = new ColorCreateDto
-            {
-                ColorName= createColorVm.ColorName,
-            };
+            //ColorCreateDto color = new ColorCreateDto
+            //{
+            //    ColorName= createColorVm.ColorName,
+            //};
+            var color= _mapper.Map<ColorCreateDto>(createColorVm);
             await _colorService.AddColorAsync(color);
             return RedirectToAction(nameof(Index));
         }
@@ -49,11 +53,12 @@ namespace Fashi.Areas.Admin.Controllers
         {
             var color = await _colorService.GetColorByIdAsync(id);
             if (color == null) return NotFound();
-            UpdateColorVm updateColorVm = new UpdateColorVm
-            {
-                Id = color.Id,
-                ColorName = color.ColorName
-            };
+            //UpdateColorVm updateColorVm = new UpdateColorVm
+            //{
+            //    Id = color.Id,
+            //    ColorName = color.ColorName
+            //};
+            var updateColorVm = _mapper.Map<UpdateColorVm>(color);
             return View(updateColorVm);
         }
 
@@ -64,11 +69,12 @@ namespace Fashi.Areas.Admin.Controllers
             {
                 return View(updateColorVm);
             }
-      ColorUpdateDto color = new ColorUpdateDto
-            {
-                Id = updateColorVm.Id,
-                ColorName = updateColorVm.ColorName
-            };
+      //ColorUpdateDto color = new ColorUpdateDto
+      //      {
+      //          Id = updateColorVm.Id,
+      //          ColorName = updateColorVm.ColorName
+      //      };
+      var color = _mapper.Map<ColorUpdateDto>(updateColorVm);   
             await _colorService.UpdateColorAsync(color);
             return RedirectToAction(nameof(Index));
         }

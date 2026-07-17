@@ -87,12 +87,12 @@ namespace Fashi.Services.ProductServ
             {
                 return;
             }
-           _mapper.Map(productDto,product);
 
-            if (productDto.DeleteImageIds.Any())
+            _mapper.Map(productDto, product);
+            if (productDto.DeleteImagesIds.Any())
             {
               
-                    var imageToDelete=product.ProductImages.Where(pi=> productDto.DeleteImageIds.Contains(pi.Id)).ToList();
+                    var imageToDelete=product.ProductImages.Where(pi=> productDto.DeleteImagesIds.Contains(pi.Id)).ToList();
 
                 foreach(var image in imageToDelete)
                 {
@@ -108,7 +108,7 @@ namespace Fashi.Services.ProductServ
                     product.ProductImages.Add(new ProductImage { ImageUrl=imageUrl });
                 }
             }
-
+       
             product.ColorProducts.Clear();
             foreach(var colorId in productDto.ColorIds)
             {
