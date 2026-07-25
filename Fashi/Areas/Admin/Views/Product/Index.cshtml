@@ -1,5 +1,7 @@
 ﻿
-@model IEnumerable<ProductDto>
+
+
+@model PagedResult<ProductDto>
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
@@ -47,7 +49,7 @@ Category                                        </th>
 
                                     @{
                                         int count = 0;
-                                        foreach (var item in Model)
+                                        foreach (var item in Model.Items)
 
                                         {
                                             <tr>
@@ -72,24 +74,24 @@ Category                                        </th>
                                                 <td>
                                                     @item.Size
                                                 </td>
-                                                <td>
+                                               
                                                   @if(item.ImageMain != null)
                                                     {
-                                                        <img src="@item.ImageMain" alt="Product Image" style="width: 50px; height: 50px;" />
+                                                      <td>  <img src="@item.ImageMain" alt="Product Image" style="width: 50px; height: 50px;" /></td>
                                                     }
                                                     else
                                                     {
-                                                        <span>No Image</span>
+                                                    <td><span>No Image</span></td>
                                                     }
-        )
-                                                </td>
+        
+                                               
                                                 @if(item.MainColorName != null)
                                                     {
                                                         <td> @item.MainColorName </td>                    
                                                     }
                                                 else
                                                 {
-                                                    <span>No Color</span>
+                                                    <td> <span>No Color</span></td>
                                                 }
                                                         
                                                     
@@ -112,6 +114,26 @@ Category                                        </th>
 
                                 </tbody>
                             </table>
+
+                                 <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                                    @if (Model.HasPrevious)
+                                    {
+                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage-1)">Previous</a></li>
+                                    }
+                                    @for (int i=1;i<=Model.TotalPages;i++)
+                                    {
+                                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
+                                    }
+                                   
+                  @if(Model.HasNext)
+                                    {
+                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage+1)">Next</a></li>
+                                    }
+
+                    
+                </ul>
+            </nav>
                         </div>
                     </div>
                 </div>

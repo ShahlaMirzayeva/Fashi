@@ -10,5 +10,6 @@ namespace Fashi.Repositories
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
         Task<bool>SaveAsync();
+        IQueryable<T> GetQuery();
     }
 }

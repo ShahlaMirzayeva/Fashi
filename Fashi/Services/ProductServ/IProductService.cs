@@ -1,11 +1,12 @@
 ﻿using Fashi.Dtos.Product;
 using Fashi.Models;
+using Fashi.Models.Common;
 
 namespace Fashi.Services.ProductServ
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAllProductAsync();
+        Task<PagedResult<ProductDto>> GetAllProductAsync(int page,int pageSize);
         Task<Product> GetProductByIdAsync(int id);
         Task AddProductAsync(ProductCreateDto product,List<IFormFile>images,List<int>colorIds);
         Task DeleteProductAsync(int id);

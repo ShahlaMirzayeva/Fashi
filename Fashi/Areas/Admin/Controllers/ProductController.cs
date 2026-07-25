@@ -24,9 +24,9 @@ namespace Fashi.Areas.Admin.Controllers
             _colorService = colorService;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=1,int pageSize=5)
         {
-            var products = await _productService.GetAllProductAsync();
+            var products = await _productService.GetAllProductAsync(page,pageSize);
             return View(products);
         }
 

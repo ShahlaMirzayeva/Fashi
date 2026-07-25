@@ -58,5 +58,9 @@ namespace Fashi.Repositories
         {
             _dbSet.Update(entity);
         }
+        public IQueryable<T> GetQuery()
+        {
+            return _context.Set<T>();
+        }
     }
 }

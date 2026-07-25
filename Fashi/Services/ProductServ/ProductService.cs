@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Fashi.Dtos.Product;
 using Fashi.Models;
+using Fashi.Models.Common;
 using Fashi.Repositories.ProductRepo;
 using Fashi.Services.FileServ;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fashi.Services.ProductServ
 {
@@ -69,10 +71,25 @@ namespace Fashi.Services.ProductServ
           await _productRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductAsync()
-        {
-            var product=await _productRepository.GetAllProductWithDetailAsync();
-            return _mapper.Map<IEnumerable<ProductDto>>(product);
+        public async Task<PagedResult<ProductDto>> GetAllProductAsync(int page, int pageSize)
+        {var query=_productRepository.GetQuery();
+            var totalCount=await query.CountAsync();
+            //var product=await _productRepository.GetAllProductWithDetailAsync();
+            var products = await query
+      .OrderByDescending(p => p.CreateTime)
+      .Skip((page - 1) * pageSize)
+      .Take(pageSize)
+      .Include(p => p.Category)
+      .ToListAsync();
+
+          var productDtos= _mapper.Map<List<ProductDto>>(products);
+            return new PagedResult<ProductDto>
+            {
+                Items = productDtos,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            };
         }
 
         public async Task<Product> GetProductByIdAsync(int id)

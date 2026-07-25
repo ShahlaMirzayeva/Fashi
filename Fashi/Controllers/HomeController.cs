@@ -26,7 +26,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var categories = await _categoryService.GetAllCategoryAsync();
-        var products = await _productService.GetAllProductAsync();
+        //var products = await _productService.GetAllProductAsync();
 
         HomeVM homeVM = new HomeVM
         {
