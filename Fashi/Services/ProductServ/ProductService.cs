@@ -71,8 +71,14 @@ namespace Fashi.Services.ProductServ
           await _productRepository.SaveAsync();
         }
 
-        public async Task<PagedResult<ProductDto>> GetAllProductAsync(int page, int pageSize)
-        {var query=_productRepository.GetQuery();
+        public async Task<PagedResult<ProductDto>> GetAllProductAsync(int page, int pageSize,string? search)
+        {
+            var query = _productRepository.GetQuery();
+
+            if(!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(p=>EF.Functions.Like(p.Name, $"%{search}%"));
+            }
             var totalCount=await query.CountAsync();
             //var product=await _productRepository.GetAllProductWithDetailAsync();
             var products = await query
@@ -89,6 +95,7 @@ namespace Fashi.Services.ProductServ
                 CurrentPage = page,
                 PageSize = pageSize,
                 TotalCount = totalCount
+            
             };
         }
 
