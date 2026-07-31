@@ -17,44 +17,40 @@
                                        value="@Model.Search"
                                        class="form-control"
                                        placeholder="Search product..." />
+                                <select name="sort" class="form-select">
+                                    <option value="">Newest</option>
+                                    <option value="priceAsc">Price: Low to High</option>
+                                    <option value="priceDesc">Price: High to Low</option>
+                                </select>
+                                <select name="categoryId" class="form-select">
+                                    <option value="">All Categories</option>
 
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                </select>
                                 <button type="submit" class="btn btn-primary ms-2">
-                                    Search
+                                   Apply
                                 </button>
                             </div>
                         </form>
                         <a asp-controller="Product" asp-action="Create">Add Product</a>
+                    
                         <div class="table-responsive pt-3">
                             <table class="table table-dark">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            #
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                       Price
-                                        </th>
-                                        <th>
-                                         Discount
-                                        </th>
-                                        <th>
-                                         Count
-                                        </th>
-                                        <th>
-                                         Size
-                                        </th>
-                                        <th>
-                                            Images
-                                        </th>
+                                        <th> #</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Discount</th>
+                                        <th>Count </th>
+                                        <th>Size</th>
+                                        <th>Images</th>
                                         <th>Color</th>
-                                        <th>
-Category                                        </th>
-                                        <th>
-                                            Options
-                                        </th>
+                                        <th>Category</th>
+                                        <th>Options</th>
 
                                     </tr>
                                 </thead>
@@ -129,19 +125,25 @@ Category                                        </th>
                             </table>
 
                                  <nav aria-label="Page navigation example">
-                <ul class="pagination">
+                                 <ul class="pagination">
                                     @if (Model.HasPrevious)
                                     {
-                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage-1)">Previous</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="Index" }
+                                               asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                                        </li>
                                     }
                                     @for (int i=1;i<=Model.TotalPages;i++)
                                     {
-                                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" asp-action="Index" asp-route-search="@Model.Search" asp-route-page="@i">@i</a></li>
+                                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")"><a class="page-link" asp-action="Index"asp-route-pageSize="@Model.PageSize" asp-route-categoryId="@Model.CategoryId" asp-route-search="@Model.Search"asp-route-sort="@Model.Sort" asp-route-page="@i">@i</a></li>
                                     }
                                    
-                  @if(Model.HasNext)
+                                 @if(Model.HasNext)
                                     {
-                                        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage+1)">Next</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="Index" }
+                                               asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                                        </li>
                                     }
 
                     

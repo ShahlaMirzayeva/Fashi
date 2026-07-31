@@ -71,7 +71,7 @@ namespace Fashi.Services.ProductServ
           await _productRepository.SaveAsync();
         }
 
-        public async Task<PagedResult<ProductDto>> GetAllProductAsync(int page, int pageSize,string? search)
+        public async Task<PagedResult<ProductDto>> GetAllProductAsync(int page, int pageSize,string? search,int? categoryId,string? sort)
         {
             var query = _productRepository.GetQuery();
 
@@ -79,11 +79,29 @@ namespace Fashi.Services.ProductServ
             {
                 query = query.Where(p=>EF.Functions.Like(p.Name, $"%{search}%"));
             }
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            switch (sort)
+            {
+                case "priceAsc":
+                    query = query.OrderBy(p => p.Price);
+                    break;
+
+                case "priceDesc":
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+
+                default:
+                    query = query.OrderByDescending(p => p.CreateTime);
+                    break;
+            }
             var totalCount=await query.CountAsync();
             //var product=await _productRepository.GetAllProductWithDetailAsync();
             var products = await query
-      .OrderByDescending(p => p.CreateTime)
-      .Skip((page - 1) * pageSize)
+    .Skip((page - 1) * pageSize)
       .Take(pageSize)
       .Include(p => p.Category)
       .ToListAsync();
@@ -94,8 +112,10 @@ namespace Fashi.Services.ProductServ
                 Items = productDtos,
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalCount = totalCount
-            
+                TotalCount = totalCount,
+                CategoryId = categoryId,
+                Sort = sort,
+                Search = search
             };
         }
 

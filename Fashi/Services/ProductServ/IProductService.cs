@@ -6,7 +6,7 @@ namespace Fashi.Services.ProductServ
 {
     public interface IProductService
     {
-        Task<PagedResult<ProductDto>> GetAllProductAsync(int page,int pageSize,string? search);
+        Task<PagedResult<ProductDto>> GetAllProductAsync(int page,int pageSize,string? search,int? categoryId,string? sort);
         Task<Product> GetProductByIdAsync(int id);
         Task AddProductAsync(ProductCreateDto product,List<IFormFile>images,List<int>colorIds);
         Task DeleteProductAsync(int id);
