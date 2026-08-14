@@ -3,6 +3,7 @@ using Fashi.Repositories.CategoryRepo;
 using Fashi.Repositories.ColorRepo;
 using Fashi.Repositories.GenderRepo;
 using Fashi.Repositories.ProductRepo;
+using Fashi.Services.AccountServ;
 using Fashi.Services.CategoryServ;
 using Fashi.Services.ColorServ;
 using Fashi.Services.FileServ;
@@ -35,6 +36,8 @@ namespace Fashi.Helpers.Extensions
             services.AddScoped<IColorRepository, ColorRepository>();
 
             services.AddScoped<IFileService, FileService>();
+
+            services.AddScoped<IAccountService, AccountService>();
 
 
 
