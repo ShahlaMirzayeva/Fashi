@@ -31,13 +31,37 @@ namespace Fashi.Areas.Admin.Controllers
             var result = await _account.AdminRegisterAsync(model);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(model);
+        }
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = await _account.LoginAsync(model);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View(model);
+        }
+        public IActionResult Logout()
+        {
+            _account.LogoutAsync();
+            return RedirectToAction("Login", "Account");
         }
     }
 }
