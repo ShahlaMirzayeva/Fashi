@@ -1,6 +1,7 @@
 ﻿
 using Fashi.Areas.Admin.ViewModels.AccountVm;
 using Fashi.Models;
+using Fashi.ViewModels.AccountVm;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
@@ -43,6 +44,27 @@ namespace Fashi.Services.AccountServ
                }
 
                 return result;
+        }
+
+        public async Task<IdentityResult> RegisterAsync(RegisterVm model)
+        {
+            var user = new AppUser
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                Address=model.Address,
+                PostCode = model.PostCode,
+                Country=model.Country,
+                City=model.City,
+
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            return result;
         }
     }
 }

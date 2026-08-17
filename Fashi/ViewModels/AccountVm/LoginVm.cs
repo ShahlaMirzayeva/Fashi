@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Fashi.Areas.Admin.ViewModels.AccountVm
+namespace Fashi.ViewModels.AccountVm
 {
     public class LoginVm
     {

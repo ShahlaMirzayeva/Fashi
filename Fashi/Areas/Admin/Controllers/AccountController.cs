@@ -1,5 +1,6 @@
 ﻿using Fashi.Areas.Admin.ViewModels.AccountVm;
 using Fashi.Services.AccountServ;
+using Fashi.ViewModels.AccountVm;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
