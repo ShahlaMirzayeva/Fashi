@@ -8,7 +8,9 @@ using Fashi.Services.CategoryServ;
 using Fashi.Services.ColorServ;
 using Fashi.Services.FileServ;
 using Fashi.Services.GenderServ;
+using Fashi.Services.HomeServ;
 using Fashi.Services.ProductServ;
+
 
 
 
@@ -39,6 +41,7 @@ namespace Fashi.Helpers.Extensions
 
             services.AddScoped<IAccountService, AccountService>();
 
+            services.AddScoped<IHomeService, HomeService>();
 
 
 

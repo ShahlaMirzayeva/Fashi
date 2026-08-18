@@ -8,7 +8,7 @@ namespace Fashi.Services.AccountServ
     {
         Task<IdentityResult> AdminRegisterAsync(AdminRegisterVm model);
         Task<IdentityResult> RegisterAsync(RegisterVm model);
-
+      
         Task<SignInResult> LoginAsync(LoginVm model);
         Task LogoutAsync();
     }

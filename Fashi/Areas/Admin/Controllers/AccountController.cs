@@ -1,12 +1,14 @@
 ﻿using Fashi.Areas.Admin.ViewModels.AccountVm;
 using Fashi.Services.AccountServ;
 using Fashi.ViewModels.AccountVm;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fashi.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="Admin")]
     public class AccountController : Controller
     {
         private readonly IAccountService _account;

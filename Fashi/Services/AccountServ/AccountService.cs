@@ -10,11 +10,12 @@ namespace Fashi.Services.AccountServ
     public class AccountService : IAccountService
     {private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-
+ 
         public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+          
         }
         public async Task<SignInResult> LoginAsync(LoginVm model)
         {var user =await _userManager.FindByEmailAsync(model.Email);
@@ -63,8 +64,9 @@ namespace Fashi.Services.AccountServ
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
             }
-
+            await _userManager.AddToRoleAsync(user, "User");
             return result;
         }
+     
     }
 }
