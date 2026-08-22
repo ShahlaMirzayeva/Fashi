@@ -1,4 +1,7 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.Category;
+using Fashi.Dtos.Product;
+using Fashi.Models;
+using Fashi.Models.Common;
 
 namespace Fashi.ViewModels
 {
@@ -8,8 +11,8 @@ namespace Fashi.ViewModels
         public IEnumerable<CategoryBanner> CategoryBanners { get; set; }
 
         public IEnumerable<Discover> Discovers { get; set; }
-        public IEnumerable<Category> Categories { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<CategoryDto> Categories { get; set; }
+        public PagedResult<ProductDto> Products { get; set; }
         public IEnumerable<DealOfWeek> DealOfWeeks { get; set; }
         public IEnumerable<SosialMedia> SosialMedias { get; set; }
         public IEnumerable<Blog> Blogs { get; set; }

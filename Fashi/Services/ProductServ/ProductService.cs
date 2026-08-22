@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Fashi.Dtos.Product;
 using Fashi.Models;
 using Fashi.Models.Common;
@@ -104,6 +105,10 @@ namespace Fashi.Services.ProductServ
     .Skip((page - 1) * pageSize)
       .Take(pageSize)
       .Include(p => p.Category)
+      .Include(p => p.ProductImages)
+      .Include(p => p.ColorProducts)
+        .ThenInclude(cp => cp.Color)    
+
       .ToListAsync();
 
           var productDtos= _mapper.Map<List<ProductDto>>(products);

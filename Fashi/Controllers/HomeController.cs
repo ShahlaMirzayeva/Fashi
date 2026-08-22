@@ -23,19 +23,19 @@ public class HomeController : Controller
         _productService = productService;
         
     }
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page=1,int pageSize=8,string?search=null,int? categoryId=null,string?sort=null)
     {
         var categories = await _categoryService.GetAllCategoryAsync();
-        //var products = await _productService.GetAllProductAsync();
+        var products = await _productService.GetAllProductAsync(page,pageSize,search,categoryId,sort);
 
         HomeVM homeVM = new HomeVM
         {
             HomeBanners = _context.HomeBanners,
             CategoryBanners=_context.CategoryBanners,
             Discovers=_context.Discovers,
-            //Categories=categories,
-            //Products=products,
-            DealOfWeeks=_context.DealOfWeeks,
+            Categories = categories,
+            Products = products,
+            DealOfWeeks =_context.DealOfWeeks,
             SosialMedias=_context.SosialMedias,
             Blogs=_context.Blogs.Include(b=>b.BlogImages),
             Benefits=_context.Benefits,

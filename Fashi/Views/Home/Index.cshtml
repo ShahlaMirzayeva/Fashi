@@ -73,11 +73,11 @@
                     </ul>
                 </div>
                 <div class="product-slider owl-carousel">
-                    @foreach (var product in Model.Products)
+                    @foreach (var product in Model.Products.Items)
                     {
                         <div class="product-item"data-id="@product.CategoryId">
                             <div class="pi-pic">
-                                <img src="~/img/products/@product.ProductImages.FirstOrDefault()?.ImageUrl" alt="">
+                                <img src="~/img/products/@product.ImageMain" alt="">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
@@ -89,7 +89,7 @@
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">@product.Category.Name</div>
+                                <div class="catagory-name">@product.CategoryName</div>
                                 <a href="#">
                                     <h5>@product.Name</h5>
                                 </a>
@@ -161,11 +161,11 @@
                     </ul>
                 </div>
                 <div class="product-slider owl-carousel">
-                    @foreach (var product in @Model.Products)
+                    @foreach (var product in @Model.Products.Items)
                     {
                         <div class="product-item" data-id="@product.CategoryId">
                             <div class="pi-pic">
-                                <img src="~/img/products/@product.ProductImages.FirstOrDefault()?.ImageUrl" alt="">
+                                <img src="~/img/products/@product.ImageMain" alt="">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
@@ -177,7 +177,7 @@
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">@product.Category.Name</div>
+                                <div class="catagory-name">@product.CategoryName</div>
                                 <a href="#">
                                     <h5>@product.Name</h5>
                                 </a>
