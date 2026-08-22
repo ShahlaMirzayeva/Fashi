@@ -1,6 +1,7 @@
 ﻿
 using Fashi.Repositories;
 using Fashi.Repositories.BenefitRepo;
+using Fashi.Repositories.BlogCategoryRepo;
 using Fashi.Repositories.CategoryBannerRepo;
 using Fashi.Repositories.CategoryRepo;
 using Fashi.Repositories.ColorRepo;
@@ -12,6 +13,7 @@ using Fashi.Repositories.ProductRepo;
 using Fashi.Repositories.SosialMediaRepo;
 using Fashi.Services.AccountServ;
 using Fashi.Services.BenefitServ;
+using Fashi.Services.BlogCategoryServ;
 using Fashi.Services.CategoryBannerServ;
 using Fashi.Services.CategoryServ;
 using Fashi.Services.ColorServ;
@@ -73,6 +75,9 @@ namespace Fashi.Helpers.Extensions
 
             services.AddScoped<ICategoryBannerService, CategoryBannerService>();
             services.AddScoped<ICategoryBannerRepository, CategoryBannerRepository>();
+
+            services.AddScoped<IBlogCategoryRepository, BlogCategoryRepository>();
+            services.AddScoped<IBlogCategoryService, BlogCategoryService>();
 
 
 
