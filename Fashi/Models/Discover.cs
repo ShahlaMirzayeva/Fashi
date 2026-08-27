@@ -10,5 +10,6 @@ namespace Fashi.Models
         public string Image { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }
+
     }
 }

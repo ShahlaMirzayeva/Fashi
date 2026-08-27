@@ -6,7 +6,6 @@ namespace Fashi.Models
     {
        
         public string LogoIcon { get; set; }
-        [NotMapped]
-        public IFormFile LogoUrl { get; set; }
+   
     }
 }

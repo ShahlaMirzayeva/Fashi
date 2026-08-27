@@ -7,8 +7,9 @@ namespace Fashi.Models
     
         public string SosialMediaLink { get; set; }
         public string Icon { get; set; }
-        public string Image { get; set; }
         [NotMapped]
         public IFormFile ImageUrl { get; set; }
+        public string Image { get; set; }
+     
     }
 }

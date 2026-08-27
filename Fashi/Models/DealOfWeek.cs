@@ -11,7 +11,6 @@ namespace Fashi.Models
         public DateTime DealofTime { get; set; }
         public double Price { get; set; }
         public string  Image { get; set; }
-        [NotMapped]
-        public IFormFile ImgUrl { get; set; }
+    
     }
 }
