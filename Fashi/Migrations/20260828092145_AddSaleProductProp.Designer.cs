@@ -4,6 +4,7 @@ using Fashi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fashi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260828092145_AddSaleProductProp")]
+    partial class AddSaleProductProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,53 +203,6 @@ namespace Fashi.Migrations
                     b.HasIndex("BlogId");
 
                     b.ToTable("BlogImages");
-                });
-
-            modelBuilder.Entity("Fashi.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppUserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId1");
-
-                    b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("Fashi.Models.CartProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProduct");
                 });
 
             modelBuilder.Entity("Fashi.Models.Category", b =>
@@ -767,34 +723,6 @@ namespace Fashi.Migrations
                     b.Navigation("Blog");
                 });
 
-            modelBuilder.Entity("Fashi.Models.Cart", b =>
-                {
-                    b.HasOne("Fashi.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId1");
-
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("Fashi.Models.CartProduct", b =>
-                {
-                    b.HasOne("Fashi.Models.Cart", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Fashi.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Fashi.Models.Category", b =>
                 {
                     b.HasOne("Fashi.Models.Gender", "Gender")
@@ -937,11 +865,6 @@ namespace Fashi.Migrations
             modelBuilder.Entity("Fashi.Models.BlogCategory", b =>
                 {
                     b.Navigation("Blogs");
-                });
-
-            modelBuilder.Entity("Fashi.Models.Cart", b =>
-                {
-                    b.Navigation("CartProducts");
                 });
 
             modelBuilder.Entity("Fashi.Models.Category", b =>

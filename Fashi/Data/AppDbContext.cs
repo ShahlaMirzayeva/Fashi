@@ -34,5 +34,7 @@ namespace Fashi.Data
         public DbSet<Benefit> Benefits { get; set; }
         public DbSet<Logo> Logos { get; set; }
         public DbSet<BlogCategory>BlogCategories{ get; set; }
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<CartProduct> CartProduct { get; set; }
     }
 }

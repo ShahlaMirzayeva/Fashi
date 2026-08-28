@@ -4,7 +4,7 @@
     {
       
         public DateTime SaleTime { get; set; }
-        public double Total { get; set; }
+        public decimal Total { get; set; }
 
         public int AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
