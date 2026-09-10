@@ -1,9 +1,8 @@
-﻿using Fashi.Models;
-using Fashi.ViewModels.ReportVm;
+﻿using Fashi.ViewModels.ReportVm;
 
-namespace Fashi.Repositories.SaleRepo
+namespace Fashi.Services.ReportServ
 {
-    public interface ISaleRepository:IRepository<Sale>
+    public interface IReportService
     {
         Task<List<ProductSalesReportVM>> GetProductSalesReportAsync();
         Task<List<MonthlyRevenueReportVM>> GetMonthlyRevenueReportAsync();
