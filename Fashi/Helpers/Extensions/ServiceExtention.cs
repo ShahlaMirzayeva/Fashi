@@ -2,6 +2,8 @@
 using Fashi.Repositories;
 using Fashi.Repositories.BenefitRepo;
 using Fashi.Repositories.BlogCategoryRepo;
+using Fashi.Repositories.BlogRepo;
+using Fashi.Repositories.CartRepo;
 using Fashi.Repositories.CategoryBannerRepo;
 using Fashi.Repositories.CategoryRepo;
 using Fashi.Repositories.ColorRepo;
@@ -10,10 +12,13 @@ using Fashi.Repositories.DiscoverRepo;
 using Fashi.Repositories.GenderRepo;
 using Fashi.Repositories.HomeBannerRepo;
 using Fashi.Repositories.ProductRepo;
+using Fashi.Repositories.SaleRepo;
 using Fashi.Repositories.SosialMediaRepo;
 using Fashi.Services.AccountServ;
 using Fashi.Services.BenefitServ;
 using Fashi.Services.BlogCategoryServ;
+using Fashi.Services.BlogServ;
+using Fashi.Services.CartServ;
 using Fashi.Services.CategoryBannerServ;
 using Fashi.Services.CategoryServ;
 using Fashi.Services.ColorServ;
@@ -24,6 +29,8 @@ using Fashi.Services.GenderServ;
 using Fashi.Services.HomeBannerServ;
 using Fashi.Services.HomeServ;
 using Fashi.Services.ProductServ;
+using Fashi.Services.ReportServ;
+using Fashi.Services.SaleServ;
 using Fashi.Services.SosialMediaServ;
 
 
@@ -79,7 +86,17 @@ namespace Fashi.Helpers.Extensions
             services.AddScoped<IBlogCategoryRepository, BlogCategoryRepository>();
             services.AddScoped<IBlogCategoryService, BlogCategoryService>();
 
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartRepository, CartRepository>();
 
+            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+
+
+            services.AddScoped<ISaleService, SaleService>();
+            services.AddScoped<ISaleRepository, SaleRepository>();
+
+            services.AddScoped<IReportService, ReportService>();
 
 
 
