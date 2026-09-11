@@ -1,4 +1,6 @@
-﻿using Fashi.Models;
+﻿using AutoMapper;
+using Fashi.Dtos.Benefit;
+using Fashi.Models;
 using Fashi.Repositories.BenefitRepo;
 using Fashi.Services.FileServ;
 
@@ -6,26 +8,27 @@ namespace Fashi.Services.BenefitServ
 {
     public class BenefitService : IBenefitService
     {private readonly IBenefitRepository _benefitRepository;
+        private readonly IMapper _mapper;
         private readonly IFileService _fileService;
-        public BenefitService(IBenefitRepository benefitRepository, IFileService fileService)
+        public BenefitService(IBenefitRepository benefitRepository, IFileService fileService, IMapper mapper)
         {
             _benefitRepository = benefitRepository;
             _fileService = fileService;
+            _mapper = mapper;
         }
 
-        public async Task AddBenefitAsync(Benefit benefit)
-        {string iconPath = await _fileService.UploadFileAsync(benefit.IconUrl, "benefits");
-            var newBenefit = new Benefit()
+        public async Task AddBenefitAsync(BenefitCreateDto benefitDto)
+        {var benefit = _mapper.Map<Benefit>(benefitDto);
+          if(benefitDto.IconUrl != null)
             {
-                Title = benefit.Title,
-                Description = benefit.Description,
-                Icon = iconPath
-            };
+                benefit.Icon = await _fileService.UploadFileAsync(benefitDto.IconUrl, "benefits");
+            }
 
 
-           
 
-            await _benefitRepository.AddAsync(newBenefit);
+
+
+            await _benefitRepository.AddAsync(benefit);
             await _benefitRepository.SaveAsync();    
         }
 
@@ -40,31 +43,34 @@ namespace Fashi.Services.BenefitServ
             await _benefitRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<Benefit>> GetAllBenefitsAsync()
+        public async Task<IEnumerable<BenefitDto>> GetAllBenefitsAsync()
         {
             var benefits = await _benefitRepository.GetAllAsync();
-            return benefits;
+            return _mapper.Map<IEnumerable<BenefitDto>>(benefits);
         }
 
-        public async Task<Benefit> GetBenefitByIdAsync(int id)
+        public async Task<BenefitDto> GetBenefitByIdAsync(int id)
         {
             var benefit = await _benefitRepository.GetByIdAsync(id);
-            return benefit;
+            return _mapper.Map<BenefitDto>(benefit);
         }
         
 
-        public async Task UpdateBenefitAsync(Benefit benefit)
+        public async Task UpdateBenefitAsync(BenefitUpdateDto benefitDto)
         {
-            var existingBenefit = await _benefitRepository.GetByIdAsync(benefit.Id);
+            var existingBenefit = await _benefitRepository.GetByIdAsync(benefitDto.Id);
             if (existingBenefit == null)
             {
                 throw new ArgumentException("Benefit not found");
             }
+            _mapper.Map(benefitDto, existingBenefit);
 
-            existingBenefit.Title = benefit.Title;
-            existingBenefit.Description = benefit.Description;
-            _fileService.DeleteImage(existingBenefit.Icon);
-            existingBenefit.Icon = await _fileService.UploadFileAsync(benefit.IconUrl, "benefits");
+            if (benefitDto.IconUrl != null)
+            {
+                _fileService.DeleteImage(existingBenefit.Icon);
+                existingBenefit.Icon = await _fileService.UploadFileAsync(benefitDto.IconUrl, "benefits");
+            }
+          
             await _benefitRepository.UpdateAsync(existingBenefit);
             await _benefitRepository.SaveAsync();
         }

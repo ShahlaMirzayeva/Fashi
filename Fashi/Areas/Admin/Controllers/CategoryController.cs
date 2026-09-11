@@ -43,11 +43,7 @@ namespace Fashi.Areas.Admin.Controllers
                 return View(createCategoryVm);
 
             }
-            //CategoryCreateDto category = new CategoryCreateDto
-            //{
-            //    Name = createCategoryVm.Name,
-            //    GenderId = createCategoryVm.GenderId
-            //};
+         
             var category= _mapper.Map<CategoryCreateDto>(createCategoryVm);
             await _categoryService.AddCategoryAsync(category);
             return RedirectToAction(nameof(Index));

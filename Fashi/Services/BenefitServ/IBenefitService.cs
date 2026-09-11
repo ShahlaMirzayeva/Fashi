@@ -1,13 +1,14 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.Benefit;
+using Fashi.Models;
 
 namespace Fashi.Services.BenefitServ
 {
     public interface IBenefitService
     {
-        Task<IEnumerable<Benefit>> GetAllBenefitsAsync();
-        Task<Benefit> GetBenefitByIdAsync(int id);
-        Task AddBenefitAsync(Benefit benefit);
+        Task<IEnumerable<BenefitDto>> GetAllBenefitsAsync();
+        Task<BenefitDto> GetBenefitByIdAsync(int id);
+        Task AddBenefitAsync(BenefitCreateDto benefitDto);
         Task DeleteBenefitAsync(int id);
-        Task UpdateBenefitAsync(Benefit benefit);
+        Task UpdateBenefitAsync(BenefitUpdateDto benefitDto);
     }
 }

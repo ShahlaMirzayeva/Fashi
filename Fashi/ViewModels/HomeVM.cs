@@ -1,4 +1,5 @@
-﻿using Fashi.Dtos.Category;
+﻿using Fashi.Dtos.Benefit;
+using Fashi.Dtos.Category;
 using Fashi.Dtos.Product;
 using Fashi.Models;
 using Fashi.Models.Common;
@@ -16,7 +17,7 @@ namespace Fashi.ViewModels
         public IEnumerable<DealOfWeek> DealOfWeeks { get; set; }
         public IEnumerable<SosialMedia> SosialMedias { get; set; }
         public IEnumerable<Blog> Blogs { get; set; }
-        public IEnumerable<Benefit> Benefits { get; set; }
+        public IEnumerable<BenefitDto> Benefits { get; set; }
         public IEnumerable<Logo> Logos { get; set; }
        
     }
