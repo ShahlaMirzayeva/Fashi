@@ -1,5 +1,7 @@
 ﻿using Fashi.Dtos.Benefit;
 using Fashi.Dtos.Category;
+using Fashi.Dtos.CategoryBanner;
+using Fashi.Dtos.HomeBanner;
 using Fashi.Dtos.Product;
 using Fashi.Models;
 using Fashi.Models.Common;
@@ -8,8 +10,8 @@ namespace Fashi.ViewModels
 {
     public class HomeVM
     {
-        public IEnumerable<HomeBanner> HomeBanners { get; set; }
-        public IEnumerable<CategoryBanner> CategoryBanners { get; set; }
+        public IEnumerable<HomeBannerDto> HomeBanners { get; set; }
+        public IEnumerable<CategoryBannerDto> CategoryBanners { get; set; }
 
         public IEnumerable<Discover> Discovers { get; set; }
         public IEnumerable<CategoryDto> Categories { get; set; }

@@ -1,62 +1,71 @@
-﻿using Fashi.Data;
+﻿using AutoMapper;
+using Fashi.Dtos.HomeBanner;
 using Fashi.Models;
 using Fashi.Repositories.HomeBannerRepo;
+using Fashi.Services.FileServ;
 
 namespace Fashi.Services.HomeBannerServ
 {
     public class HomeBannerService : IHomeBannerService
     {
         private readonly IHomeBannerRepository _bannerRepository;
-        public HomeBannerService(IHomeBannerRepository bannerRepository)
+        private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
+        public HomeBannerService(IHomeBannerRepository bannerRepository, IMapper mapper, IFileService fileService)
         {
             _bannerRepository = bannerRepository;
+            _mapper = mapper;
+            _fileService = fileService;
         }
-        public async Task AddHomeBannerAsync(HomeBanner homeBanner)
-        {var banner = new HomeBanner
+        public async Task AddHomeBannerAsync(HomeBannerCreateDto homeBannerDto)
         {
-            Title = homeBanner.Title,
-            LittleTitle = homeBanner.LittleTitle,
-            Description = homeBanner.Description,
-            Image = homeBanner.Image,
-            Photo = homeBanner.Photo
-        };
-            await _bannerRepository.AddAsync(banner);
+            var homeBanner = _mapper.Map<HomeBanner>(homeBannerDto);
+            if (homeBannerDto.Photo != null)
+            {
+                homeBanner.Image = await _fileService.UploadFileAsync(homeBannerDto.Photo, "home-banners");
+            }
+            await _bannerRepository.AddAsync(homeBanner);
             await _bannerRepository.SaveAsync();
-           
+
         }
 
         public async Task DeleteHomeBannerAsync(int id)
-        {var banner = _bannerRepository.GetByIdAsync(id);
-            if (banner == null)
-            {
-                throw new Exception("Banner not found");
-            }
-            await _bannerRepository.DeleteAsync(id);
-          await _bannerRepository.SaveAsync();
-        }
-
-        public async Task<IEnumerable<HomeBanner>> GetAllHomeBannerAsync()
-        {var banners =await _bannerRepository.GetAllAsync();
-            return banners;
-        }
-
-        public async Task<HomeBanner> GetByIdHomeBannerAsync(int id)
-        {var banner =await _bannerRepository.GetByIdAsync(id);
-           return banner;
-        }
-
-        public async Task UpdateHomeBannerAsync(HomeBanner homeBanner)
         {
-            var banner = await _bannerRepository.GetByIdAsync(homeBanner.Id);
+            var banner = _bannerRepository.GetByIdAsync(id);
             if (banner == null)
             {
                 throw new Exception("Banner not found");
             }
-            banner.Title = homeBanner.Title;
-            banner.LittleTitle = homeBanner.LittleTitle;
-            banner.Description = homeBanner.Description;
-            banner.Image = homeBanner.Image;
-            banner.Photo = homeBanner.Photo;
+            _fileService.DeleteImage((await banner).Image);
+            await _bannerRepository.DeleteAsync(id);
+            await _bannerRepository.SaveAsync();
+        }
+
+        public async Task<IEnumerable<HomeBannerDto>> GetAllHomeBannerAsync()
+        {
+            var banners = await _bannerRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<HomeBannerDto>>(banners);
+        }
+
+        public async Task<HomeBannerDto> GetByIdHomeBannerAsync(int id)
+        {
+            var banner = await _bannerRepository.GetByIdAsync(id);
+            return _mapper.Map<HomeBannerDto>(banner);
+        }
+
+        public async Task UpdateHomeBannerAsync(HomeBannerUpdateDto homeBannerDto)
+        {
+            var banner = await _bannerRepository.GetByIdAsync(homeBannerDto.Id);
+            if (banner == null)
+            {
+                throw new Exception("Banner not found");
+            }
+    _mapper.Map(homeBannerDto, banner);
+            if(homeBannerDto.Photo != null)
+            {
+                _fileService.DeleteImage(banner.Image);
+                banner.Image = await _fileService.UploadFileAsync(homeBannerDto.Photo, "home-banners");
+            }
             await _bannerRepository.UpdateAsync(banner);
             await _bannerRepository.SaveAsync();
         }

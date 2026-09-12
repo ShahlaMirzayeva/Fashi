@@ -1,12 +1,13 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.CategoryBanner;
+using Fashi.Models;
 
 namespace Fashi.Services.CategoryBannerServ
 {
     public interface ICategoryBannerService
-    {Task<IEnumerable<CategoryBanner>> GetAllCategoryBannerAsync();
-        Task<CategoryBanner> GetByIdCategoryBannerAsync(int id);
-        Task AddCategoryBannerAsync(CategoryBanner categoryBanner);
+    {Task<IEnumerable<CategoryBannerDto>> GetAllCategoryBannerAsync();
+        Task<CategoryBannerDto> GetByIdCategoryBannerAsync(int id);
+        Task AddCategoryBannerAsync(CategoryBannerCreateDto categoryBanner);
         Task DeleteCategoryBannerAsync(int id);
-        Task UpdateCategoryBannerAsync(CategoryBanner categoryBanner);
+        Task UpdateCategoryBannerAsync(CategoryBannerUpdateDto categoryBanner);
     }
 }
