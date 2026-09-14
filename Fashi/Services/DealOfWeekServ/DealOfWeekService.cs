@@ -1,26 +1,31 @@
-﻿using Fashi.Models;
+﻿using AutoMapper;
+using Fashi.Dtos.DealOfWeek;
+using Fashi.Models;
 using Fashi.Repositories.DealOfWeekRepo;
+using Fashi.Services.FileServ;
 
 namespace Fashi.Services.DealOfWeekServ
 {
     public class DealOfWeekService : IDealOfWeekService
     {private readonly IDealOfWeekRepository _dealOfWeekRepository;
-        public DealOfWeekService(IDealOfWeekRepository dealOfWeekRepository)
+        private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
+
+        public DealOfWeekService(IDealOfWeekRepository dealOfWeekRepository, IMapper mapper, IFileService fileService)
         {
-            _dealOfWeekRepository = dealOfWeekRepository    ;
+            _dealOfWeekRepository = dealOfWeekRepository;
+            _mapper = mapper;
+            _fileService = fileService;
         }
-        public async Task AddDealOfWeekAsync(DealOfWeek dealOfWeek)
+        public async Task AddDealOfWeekAsync(DealOfWeekCreateDto dealOfWeekDto)
         {
-            var deal = new DealOfWeek
+         var deal = _mapper.Map<DealOfWeek>(dealOfWeekDto);
+            if (dealOfWeekDto.Photo != null)
             {
-                ProductName = dealOfWeek.ProductName,
-                Title = dealOfWeek.Title,
-                Description = dealOfWeek.Description,
-                DealofTime = dealOfWeek.DealofTime,
-                Price = dealOfWeek.Price,
-                Image = dealOfWeek.Image
-            };
-         await _dealOfWeekRepository.AddAsync(deal);
+                var imagePath = await _fileService.UploadFileAsync(dealOfWeekDto.Photo, "images/dealofweek");
+                deal.Image = imagePath;
+            }
+            await _dealOfWeekRepository.AddAsync(deal);
             await _dealOfWeekRepository.SaveAsync();
         }
 
@@ -32,36 +37,38 @@ namespace Fashi.Services.DealOfWeekServ
           
         }
 
-        public Task<IEnumerable<DealOfWeek>> GetAllDealOfWeekAsync()
+        public async Task<IEnumerable<DealOfWeekDto>> GetAllDealOfWeekAsync()
         {
-           var deals = _dealOfWeekRepository.GetAllAsync();
-            return deals;
+           var deals =await _dealOfWeekRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<DealOfWeekDto>>(deals);
         }
 
-        public async Task<DealOfWeek> GetByIdDealOfWeekAsync(int id)
+        public async Task<DealOfWeekDto> GetByIdDealOfWeekAsync(int id)
         {
             var deal = await _dealOfWeekRepository.GetByIdAsync(id);
             if (deal == null)
             {
                 throw new Exception("Deal of the week not found");
             }
-            return deal;
+            return _mapper.Map<DealOfWeekDto>(deal);
         }
 
-        public async Task UpdateDealOfWeekAsync(DealOfWeek dealOfWeek)
+        public async Task UpdateDealOfWeekAsync(DealOfWeekUpdateDto dealOfWeekDto)
         {
-            var deal = await _dealOfWeekRepository.GetByIdAsync(dealOfWeek.Id);
+            var deal = await _dealOfWeekRepository.GetByIdAsync(dealOfWeekDto.Id);
             if (deal == null)
             {
                 throw new Exception("Deal of the week not found");
             }
 
-            deal.ProductName = dealOfWeek.ProductName;
-            deal.Title = dealOfWeek.Title;
-            deal.Description = dealOfWeek.Description;
-            deal.DealofTime = dealOfWeek.DealofTime;
-            deal.Price = dealOfWeek.Price;
-            deal.Image = dealOfWeek.Image;
+            _mapper.Map(dealOfWeekDto, deal);
+
+            if(dealOfWeekDto.Photo!= null)
+            {
+                _fileService.DeleteImage(deal.Image);
+                var imagePath = await _fileService.UploadFileAsync(dealOfWeekDto.Photo, "images/dealofweek");
+               
+            }
 
             await _dealOfWeekRepository.UpdateAsync(deal);
             await _dealOfWeekRepository.SaveAsync();

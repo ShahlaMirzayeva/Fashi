@@ -1,13 +1,14 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.DealOfWeek;
+using Fashi.Models;
 
 namespace Fashi.Services.DealOfWeekServ
 {
     public interface IDealOfWeekService
     {
-        Task<IEnumerable<DealOfWeek>> GetAllDealOfWeekAsync();
-        Task<DealOfWeek>GetByIdDealOfWeekAsync(int id);
-        Task AddDealOfWeekAsync(DealOfWeek dealOfWeek);
+        Task<IEnumerable<DealOfWeekDto>> GetAllDealOfWeekAsync();
+        Task<DealOfWeekDto>GetByIdDealOfWeekAsync(int id);
+        Task AddDealOfWeekAsync(DealOfWeekCreateDto dealOfWeekDto);
         Task DeleteDealOfWeekAsync(int id);
-        Task UpdateDealOfWeekAsync(DealOfWeek dealOfWeek);
+        Task UpdateDealOfWeekAsync(DealOfWeekUpdateDto dealOfWeekDto);
     }
 }

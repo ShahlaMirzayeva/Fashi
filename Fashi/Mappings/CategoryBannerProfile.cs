@@ -18,8 +18,8 @@ namespace Fashi.Mappings
     .ForMember(dest => dest.Image, opt => opt.Ignore());
 
 
-            CreateMap<Benefit, BenefitDto>();
-            CreateMap<BenefitCreateDto, Benefit>();
+            CreateMap<CategoryBanner, CategoryBannerDto>();
+            CreateMap<CategoryBannerCreateDto, CategoryBanner>();
         }
     }
 }

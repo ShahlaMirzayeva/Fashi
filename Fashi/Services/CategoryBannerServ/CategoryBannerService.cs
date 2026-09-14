@@ -43,15 +43,15 @@ namespace Fashi.Services.CategoryBannerServ
         }
         
 
-        public Task<IEnumerable<CategoryBannerDto>> GetAllCategoryBannerAsync()
-        {var categoryBanners = _categoryRepository.GetAllAsync();
-            return _mapper.Map<Task<IEnumerable<CategoryBannerDto>>>(categoryBanners);
+        public async Task<IEnumerable<CategoryBannerDto>> GetAllCategoryBannerAsync()
+        {var categoryBanners =await _categoryRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CategoryBannerDto>>(categoryBanners);
         }
 
-        public Task<CategoryBannerDto> GetByIdCategoryBannerAsync(int id)
+        public async Task<CategoryBannerDto> GetByIdCategoryBannerAsync(int id)
         {
-         var categoryBanner = _categoryRepository.GetByIdAsync(id);
-            return _mapper.Map<Task<CategoryBannerDto>>(categoryBanner);
+         var categoryBanner =await _categoryRepository.GetByIdAsync(id);
+            return _mapper.Map<CategoryBannerDto>(categoryBanner);
         }
 
         public async Task UpdateCategoryBannerAsync(CategoryBannerUpdateDto categoryBannerDto)

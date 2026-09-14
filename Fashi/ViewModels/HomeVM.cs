@@ -1,6 +1,7 @@
 ﻿using Fashi.Dtos.Benefit;
 using Fashi.Dtos.Category;
 using Fashi.Dtos.CategoryBanner;
+using Fashi.Dtos.DealOfWeek;
 using Fashi.Dtos.HomeBanner;
 using Fashi.Dtos.Product;
 using Fashi.Models;
@@ -16,7 +17,7 @@ namespace Fashi.ViewModels
         public IEnumerable<Discover> Discovers { get; set; }
         public IEnumerable<CategoryDto> Categories { get; set; }
         public PagedResult<ProductDto> Products { get; set; }
-        public IEnumerable<DealOfWeek> DealOfWeeks { get; set; }
+        public IEnumerable<DealOfWeekDto> DealOfWeeks { get; set; }
         public IEnumerable<SosialMedia> SosialMedias { get; set; }
         public IEnumerable<Blog> Blogs { get; set; }
         public IEnumerable<BenefitDto> Benefits { get; set; }
