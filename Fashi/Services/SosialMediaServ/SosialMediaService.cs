@@ -1,4 +1,6 @@
-﻿using Fashi.Models;
+﻿using AutoMapper;
+using Fashi.Dtos.SosialMedia;
+using Fashi.Models;
 using Fashi.Repositories.SosialMediaRepo;
 using Fashi.Services.FileServ;
 using System.Linq.Expressions;
@@ -8,32 +10,37 @@ namespace Fashi.Services.SosialMediaServ
     public class SosialMediaService : ISosialMediaService
     {private readonly ISosialMediaRepository _sosialMediaRepository;
         private readonly IFileService _fileService;
-        public SosialMediaService(ISosialMediaRepository sosialMediaRepository, IFileService fileService)
+        private readonly IMapper _mapper;
+        public SosialMediaService(ISosialMediaRepository sosialMediaRepository, IFileService fileService, IMapper mapper)
         {
             _sosialMediaRepository = sosialMediaRepository;
             _fileService = fileService;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<SosialMedia>> GetAllSosialMediaAsync()
-        {var sosialMediaList =await _sosialMediaRepository.GetAllAsync();
+        public async Task<IEnumerable<SosialMediaDto>> GetAllSosialMediaAsync()
+        {var sosialMedia =await _sosialMediaRepository.GetAllAsync();
 
-           return sosialMediaList;
+           return  _mapper.Map<IEnumerable<SosialMediaDto>>(sosialMedia);
         }
 
-        public async Task<SosialMedia> GetSosialMediaByIdAsync(int id)
+        public async Task<SosialMediaDto> GetSosialMediaByIdAsync(int id)
         {var sosialMedia = await _sosialMediaRepository.GetByIdAsync(id);
-            return sosialMedia;
+            if(sosialMedia == null)
+            {
+                throw new Exception("Sosial media not found");
+            }
+            return _mapper.Map<SosialMediaDto>(sosialMedia);
         }
 
-        public async Task AddSosialMediaAsync(SosialMedia sosialMedia)
-        {string imageUrl = await _fileService.UploadFileAsync(sosialMedia.ImageUrl,"sosial-media");
-
-            var newSosialMedia = new SosialMedia
+        public async Task AddSosialMediaAsync(SosialMediaCreateDto sosialMediaDto)
         {
-            SosialMediaLink = sosialMedia.SosialMediaLink,
-            Image =imageUrl,
-            Icon = sosialMedia.Icon
-        };
-           await _sosialMediaRepository.AddAsync(newSosialMedia);
+
+      var sosialMedia=_mapper.Map<SosialMedia>(sosialMediaDto);
+      if(sosialMediaDto.ImageUrl != null)
+      {
+          sosialMedia.Image = await _fileService.UploadFileAsync(sosialMediaDto.ImageUrl, "sosial-media");
+      }
+           await _sosialMediaRepository.AddAsync(sosialMedia);
             await _sosialMediaRepository.SaveAsync();
         }
 
@@ -44,18 +51,21 @@ namespace Fashi.Services.SosialMediaServ
             await _sosialMediaRepository.SaveAsync();
         }
 
-        public async Task UpdateSosialMediaAsync(SosialMedia sosialMedia)
+        public async Task UpdateSosialMediaAsync(SosialMediaUpdateDto sosialMediaDto)
         {
-            var existingSosialMedia = await _sosialMediaRepository.GetByIdAsync(sosialMedia.Id);
-            existingSosialMedia.SosialMediaLink = sosialMedia.SosialMediaLink;
-            existingSosialMedia.Icon = sosialMedia.Icon;
-            if (sosialMedia.ImageUrl != null)
+            var existingSosialMedia = await _sosialMediaRepository.GetByIdAsync(sosialMediaDto.Id);
+
+            _mapper.Map(sosialMediaDto, existingSosialMedia);
+          
+            if (sosialMediaDto.ImageUrl != null)
             {
                 _fileService.DeleteImage(existingSosialMedia.Image);
-                existingSosialMedia.Image = await _fileService.UploadFileAsync(sosialMedia.ImageUrl, "sosial-media");
+                existingSosialMedia.Image = await _fileService.UploadFileAsync(sosialMediaDto.ImageUrl, "sosial-media");
             }
+            await _sosialMediaRepository.UpdateAsync(existingSosialMedia);
             await _sosialMediaRepository.SaveAsync();
         }
-        
+
+      
     }
 }

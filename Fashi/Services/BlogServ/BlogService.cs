@@ -54,20 +54,20 @@ namespace Fashi.Services.BlogServ
             await _blogRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogAllAsync()
+        public async Task<IEnumerable<BlogDto>> GetBlogAllAsync()
         {
            var blogs = await _blogRepository.GetAllAsync(blog => blog.BlogImages);
-            return blogs;
+            return _mapper.Map<IEnumerable<BlogDto>>(blogs);
         }
 
-        public async Task<Blog> GetBlogByIdAsync(int id)
+        public async Task<BlogDto> GetBlogByIdAsync(int id)
         {
             var blog = await _blogRepository.GetByIdAsync(id, blog => blog.BlogImages);
             if (blog == null)
             {
                 throw new Exception("Blog not found.");
             }
-            return blog;
+            return _mapper.Map<BlogDto>(blog);
         }
 
         public async Task UpdateBlogAsync(BlogUpdateDto blogUpdateDto)

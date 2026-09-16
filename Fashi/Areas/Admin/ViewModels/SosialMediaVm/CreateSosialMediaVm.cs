@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fashi.Models
+namespace Fashi.Areas.Admin.ViewModels.SosialMediaVm
 {
-    public class SosialMedia: BaseEntity    
+    public class CreateSosialMediaVm
     {
-    
         public string SosialMediaLink { get; set; }
         public string Icon { get; set; }
-     
-        public string Image { get; set; }
-     
+    
+        public IFormFile ImageUrl { get; set; }
+      
     }
 }

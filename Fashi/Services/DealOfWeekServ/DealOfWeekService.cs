@@ -30,8 +30,9 @@ namespace Fashi.Services.DealOfWeekServ
         }
 
         public async Task DeleteDealOfWeekAsync(int id)
-        {
-         
+        {var existingDeal = await _dealOfWeekRepository.GetByIdAsync(id);
+            _fileService.DeleteImage(existingDeal.Image);
+
             await _dealOfWeekRepository.DeleteAsync(id);
             await _dealOfWeekRepository.SaveAsync();
           

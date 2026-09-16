@@ -1,12 +1,13 @@
-﻿using Fashi.Models;
+﻿using Fashi.Dtos.BlogCategory;
+using Fashi.Models;
 
 namespace Fashi.Services.BlogCategoryServ
 {
     public interface IBlogCategoryService
-    {Task<IEnumerable<BlogCategory>> GetBlogCategoryAllAsync();
-        Task<BlogCategory> GetBlogCategoryByIdAsync(int id);
-        Task AddBlogCategoryAsync(BlogCategory blogCategory);
-        Task UpdateBlogCategoryAsync(BlogCategory blogCategory);
+    {Task<IEnumerable<BlogCategoryDto>> GetBlogCategoryAllAsync();
+        Task<BlogCategoryDto> GetBlogCategoryByIdAsync(int id);
+        Task AddBlogCategoryAsync(BlogCategoryCreateDto blogCategory);
+        Task UpdateBlogCategoryAsync(BlogCategoryUpdateDto blogCategory);
         Task DeleteBlogCategoryAsync(int id);
     }
 }

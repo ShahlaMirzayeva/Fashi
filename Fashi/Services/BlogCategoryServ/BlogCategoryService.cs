@@ -1,21 +1,25 @@
-﻿using Fashi.Models;
+﻿using AutoMapper;
+using Fashi.Dtos.BlogCategory;
+using Fashi.Models;
 using Fashi.Repositories.BlogCategoryRepo;
+using Fashi.Services.FileServ;
 
 namespace Fashi.Services.BlogCategoryServ
 {
     public class BlogCategoryService : IBlogCategoryService
     {private readonly IBlogCategoryRepository _blogCategoryRepository;
-        public BlogCategoryService(IBlogCategoryRepository blogCategoryRepository)
+        private readonly IMapper _mapper;
+      
+        public BlogCategoryService(IBlogCategoryRepository blogCategoryRepository, IMapper mapper)
         {
             _blogCategoryRepository = blogCategoryRepository;
+            _mapper = mapper;
+         
         }
-        public async Task AddBlogCategoryAsync(BlogCategory blogCategory)
-        {var newBlogCategory = new BlogCategory
-        {
-            Name = blogCategory.Name
-           
-        };
-           await _blogCategoryRepository.AddAsync(newBlogCategory);
+        public async Task AddBlogCategoryAsync(BlogCategoryCreateDto blogCategoryDto)
+        {var newBlogCategory = _mapper.Map<BlogCategory>(blogCategoryDto);
+        
+            await _blogCategoryRepository.AddAsync(newBlogCategory);
             await _blogCategoryRepository.SaveAsync();
         }
 
@@ -27,22 +31,22 @@ namespace Fashi.Services.BlogCategoryServ
             
         }
 
-        public async Task<IEnumerable<BlogCategory>> GetBlogCategoryAllAsync()
+        public async Task<IEnumerable<BlogCategoryDto>> GetBlogCategoryAllAsync()
         {var blogCategories =await _blogCategoryRepository.GetAllAsync();
-            return blogCategories;
+            return  _mapper.Map<IEnumerable<BlogCategoryDto>>(blogCategories);
         }
 
-        public async Task<BlogCategory> GetBlogCategoryByIdAsync(int id)
+        public async Task<BlogCategoryDto> GetBlogCategoryByIdAsync(int id)
         {
             var blogCategory =await _blogCategoryRepository.GetByIdAsync(id);
-            return blogCategory;
+            return _mapper.Map<BlogCategoryDto>(blogCategory);
         }
 
-        public async Task UpdateBlogCategoryAsync(BlogCategory blogCategory)
-        {var existingBlogCategory = await _blogCategoryRepository.GetByIdAsync(blogCategory.Id);
+        public async Task UpdateBlogCategoryAsync(BlogCategoryUpdateDto blogCategoryDto)
+        {var existingBlogCategory = await _blogCategoryRepository.GetByIdAsync(blogCategoryDto.Id);
             if (existingBlogCategory != null)
             {
-                existingBlogCategory.Name = blogCategory.Name;
+              _mapper.Map(blogCategoryDto, existingBlogCategory);
                 await _blogCategoryRepository.UpdateAsync(existingBlogCategory);
                 await _blogCategoryRepository.SaveAsync();
             }
