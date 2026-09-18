@@ -1,0 +1,59 @@
+﻿
+@model CreateBlogVm
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Basic form elements</h4>
+                        <p class="card-description">
+                            Basic form elements
+                        </p>
+                        <form class="forms-sample" method="post">
+                            <div class="form-group">
+                                <label asp-for="Title">Title</label>
+                                <input asp-for="Title" type="text" class="form-control" id="exampleInputName1" placeholder="Title">
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LittleTitle">Little Title</label>
+                                <input asp-for="LittleTitle" type="text" class="form-control" id="exampleInputName1" placeholder="Little Title">
+                                <span asp-validation-for="LittleTitle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description">Description</label>
+                                <input asp-for="Description" type="text" class="form-control" id="exampleInputName1" placeholder="Description">
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CommentCount">Comment Count</label>
+                                <input asp-for="CommentCount" type="text" class="form-control" id="exampleInputName1" placeholder="Comment Count">
+                                <span asp-validation-for="CommentCount" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Şəkillər (maksimum 6)</label>
+                                <input type="file" asp-for="Images" name="Images" multiple accept="image/*" class="form-control" />
+                                <span asp-validation-for="Images" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="BlogCategoryId">
+                                    <option value="">Select blog category</option>
+                                    @foreach (var item in ViewBag.BlogCategories)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+
+                                </select>
+                                <span asp-validation-for="BlogCategoryId" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            <button class="btn btn-light">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </<div>
+    </div>
+

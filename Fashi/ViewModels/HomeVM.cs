@@ -13,17 +13,17 @@ namespace Fashi.ViewModels
 {
     public class HomeVM
     {
-        public IEnumerable<HomeBannerDto> HomeBanners { get; set; }
-        public IEnumerable<CategoryBannerDto> CategoryBanners { get; set; }
+        public IEnumerable<HomeBannerDto> HomeBanners { get; set; } = new List<HomeBannerDto>();    
+        public IEnumerable<CategoryBannerDto> CategoryBanners { get; set; } = new List<CategoryBannerDto>();
 
-        public IEnumerable<Discover> Discovers { get; set; }
-        public IEnumerable<CategoryDto> Categories { get; set; }
-        public PagedResult<ProductDto> Products { get; set; }
-        public IEnumerable<DealOfWeekDto> DealOfWeeks { get; set; }
-        public IEnumerable<SosialMediaDto> SosialMedias { get; set; }
-        public IEnumerable<BlogDto> Blogs { get; set; }
-        public IEnumerable<BenefitDto> Benefits { get; set; }
-        public IEnumerable<Logo> Logos { get; set; }
+        public IEnumerable<Discover> Discovers { get; set; } = new List<Discover>();
+        public IEnumerable<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+        public PagedResult<ProductDto> Products { get; set; }=new PagedResult<ProductDto>();
+        public IEnumerable<DealOfWeekDto> DealOfWeeks { get; set; } = new List<DealOfWeekDto>();
+        public IEnumerable<SosialMediaDto> SosialMedias { get; set; }= new List<SosialMediaDto>();
+        public IEnumerable<BlogDto> Blogs { get; set; }= new List<BlogDto>();
+        public IEnumerable<BenefitDto> Benefits { get; set; } = new List<BenefitDto>();
+        public IEnumerable<Logo> Logos { get; set; } = new List<Logo>();
        
     }
 }

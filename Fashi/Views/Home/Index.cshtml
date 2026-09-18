@@ -30,12 +30,12 @@
 </section>
 <!-- Hero Section End -->
 <!-- Banner Section Begin -->
-<div class="banner-section spad">
+ <div class="banner-section spad">
     <div class="container-fluid">
         <div class="row">
            
                @foreach (var item in Model.CategoryBanners)
-                {
+                { 
                     <div class="col-lg-4">
                         <div class="single-banner">
                     <img src="~/img/@item.Image" alt="">
@@ -46,18 +46,18 @@
             </div>
             }
             
-        </div>
+        </div> 
     </div>
-</div>
+ </div>
 <!-- Banner Section End -->
 <!-- Women Banner Section Begin -->
 <section class="women-banner spad">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3">
-                <div class="product-large set-bg" data-setbg="img/products/@Model.Discovers.ElementAtOrDefault(0).Image">
-                    <h2>@Model.Discovers.ElementAtOrDefault(0).Name</h2>
-                    <a href="#">@Model.Discovers.ElementAtOrDefault(0).Button</a>
+                <div class="product-large set-bg" data-setbg="img/products/@Model.Discovers.ElementAtOrDefault(0)?.Image">
+                    <h2>@Model.Discovers.ElementAtOrDefault(0)?.Name</h2>
+                    <a href="#">@Model.Discovers.ElementAtOrDefault(0)?.Button</a>
                 </div>
             </div>
             <div class="col-lg-8 offset-lg-1">
@@ -109,17 +109,17 @@
 </section>
 <!-- Women Banner Section End -->
 <!-- Deal Of The Week Section Begin-->
-<section class="deal-of-week set-bg spad" data-setbg="img/@Model.DealOfWeeks.FirstOrDefault().Image">
+<section class="deal-of-week set-bg spad" data-setbg="img/@Model.DealOfWeeks.FirstOrDefault()?.Image">
     <div class="container">
         <div class="col-lg-6 text-center">
             <div class="section-title">
-                <h2>@Model.DealOfWeeks.FirstOrDefault().Title</h2>
+                <h2>@Model.DealOfWeeks.FirstOrDefault()?.Title</h2>
                 <p>
-                 @Model.DealOfWeeks.FirstOrDefault().Description 
+                 @Model.DealOfWeeks.FirstOrDefault()?.Description 
                 </p>
                 <div class="product-price">
-                    $@Model.DealOfWeeks.FirstOrDefault().Price
-                    <span>/ @Model.DealOfWeeks.FirstOrDefault().ProductName</span>
+                    $@Model.DealOfWeeks.FirstOrDefault()?.Price
+                    <span>/ @Model.DealOfWeeks.FirstOrDefault()?.ProductName</span>
                 </div>
             </div>
             <div class="countdown-timer" id="countdown">
@@ -192,12 +192,18 @@
                   
                 </div>
             </div>
-            <div class="col-lg-3 offset-lg-1">
-                <div class="product-large set-bg m-large" data-setbg="img/products/@Model.Discovers.ElementAt(1).Image">
-                    <h2>@Model.Discovers.ElementAt(1).Name</h2>
-                    <a href="#">@Model.Discovers.ElementAt(1).Button</a>
-                </div>
-            </div>
+         @{
+    var discover = Model.Discovers.ElementAtOrDefault(1);
+}
+@if (discover != null)
+{
+    <div class="col-lg-3 offset-lg-1">
+        <div class="product-large set-bg m-large" data-setbg="img/products/@discover.Image">
+            <h2>@discover.Name</h2>
+            <a href="#">@discover.Button</a>
+        </div>
+    </div>
+}
         </div>
     </div>
 </section>

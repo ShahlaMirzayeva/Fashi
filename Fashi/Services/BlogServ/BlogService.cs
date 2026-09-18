@@ -17,23 +17,23 @@ namespace Fashi.Services.BlogServ
             _mapper = mapper;
         }
         public async Task AddBlogAsync(BlogCreateDto blogCreateDto, List<IFormFile> blogImages)
-        {if (blogImages == null && blogImages.Count > 6) { 
+        {if (blogImages != null && blogImages.Count > 6) { 
             throw new Exception("You can upload a maximum of 6 images for the blog.");
             
             }
         var blog = _mapper.Map<Blog>(blogCreateDto);
             blog.BlogImages=new List<BlogImage>();
-            foreach (var image in blogImages)
+            if(blogImages != null)
             {
-              string imageUrl=await _fileService.UploadFileAsync(image, "blogs");
-                blog.BlogImages.Add(new BlogImage { Image = imageUrl });
-                var blogImage = new BlogImage
+                foreach (var image in blogImages)
                 {
-                    Image = imageUrl,
-                   
-                };
-           
+                    string imageUrl = await _fileService.UploadFileAsync(image, "blogs");
+                    blog.BlogImages.Add(new BlogImage { Image = imageUrl });
+              
+
+                }
             }
+           
             await _blogRepository.AddAsync(blog);
             await _blogRepository.SaveAsync();
 
@@ -56,7 +56,7 @@ namespace Fashi.Services.BlogServ
 
         public async Task<IEnumerable<BlogDto>> GetBlogAllAsync()
         {
-           var blogs = await _blogRepository.GetAllAsync(blog => blog.BlogImages);
+           var blogs = await _blogRepository.GetAllAsync(blog => blog.BlogImages, blog => blog.BlogCategory);
             return _mapper.Map<IEnumerable<BlogDto>>(blogs);
         }
 

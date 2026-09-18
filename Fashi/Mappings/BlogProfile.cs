@@ -12,6 +12,7 @@ namespace Fashi.Mappings
 
         public BlogProfile()
         {
+            CreateMap<BlogDto, UpdateBlogVm>();
             CreateMap<CreateBlogVm, BlogCreateDto>();
             CreateMap<UpdateBlogVm, BlogUpdateDto>();
 

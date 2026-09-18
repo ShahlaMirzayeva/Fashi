@@ -14,6 +14,6 @@ namespace Fashi.Areas.Admin.ViewModels.BlogVm
         public int BlogCategoryId { get; set; }
         public List<IFormFile>? NewImages { get; set; }
         public List<int> DeleteImagesIds { get; set; } = new List<int>();
-        public List<ProductImage> ExistingImages { get; set; } = new List<ProductImage>();
+        public List<BlogImage> ExistingImages { get; set; } = new List<BlogImage>();
     }
 }

@@ -33,7 +33,7 @@ namespace Fashi.Services.CategoryBannerServ
         public async Task DeleteCategoryBannerAsync(int id)
         {
            var existingCategoryBanner = await _categoryRepository.GetByIdAsync(id);
-            if (existingCategoryBanner != null) { throw new Exception("It is not found"); }
+            if (existingCategoryBanner == null) { throw new Exception("It is not found"); }
 
             _fileService.DeleteImage(existingCategoryBanner.Image);
 
@@ -57,7 +57,7 @@ namespace Fashi.Services.CategoryBannerServ
         public async Task UpdateCategoryBannerAsync(CategoryBannerUpdateDto categoryBannerDto)
         {
             var exisitingCategoryBanner = await _categoryRepository.GetByIdAsync(categoryBannerDto.Id);
-            if (exisitingCategoryBanner != null)
+            if (exisitingCategoryBanner == null)
             {
                 throw new ArgumentException("CategoryBanner not found");
             }

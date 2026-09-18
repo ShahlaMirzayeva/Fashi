@@ -63,6 +63,7 @@ namespace Fashi.Services.HomeServ
                 SosialMedias = sosialMedias,
                 Blogs = blogs,
             };
+       
             return homeVM;
         }
     }
